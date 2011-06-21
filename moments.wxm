@@ -2,61 +2,40 @@
 /* [ Created with wxMaxima version 0.8.7 ] */
 
 /* [wxMaxima: input   start ] */
-load (eigen)$
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-u(t) := sin(3*%pi*t)-1/2*sin(15/2*%pi*t);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-kill(mu)$
-mu(k,f) := integrate( f(t)*t^k, t, 0, 1);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-N : 16;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-U: makelist( mu(i,u), i, 1, N )$ float(%);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
+N : 15$
+base : makelist( u^i, i,0,N)$
 legendre_coefficients(i,j) := (-1)^(i+j) * binomial(i,j) * binomial(i+j,j)$
-C: genmatrix( lambda([i,j], legendre_coefficients(i-1,j-1) * (2*i+1) ), N, N)$ float(%);
+C: genmatrix( lambda([i,j], legendre_coefficients(i-1,j-1) ), N+1, N+1)$ float(%)$
+_L : transpose( C . transpose( base ) );
+kill(L)$
+L[k](u) := _L[1][k]$
+L[N+1](u)$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-load (eigen)$
-ip (f, g) := integrate ( f * g  , u, -1, 1);
-ip2 (f, g) := integrate ( f * g  , u, 0, 1);
-base : makelist( u^i, i,0,N);
-gramschmidt( base, ip  )$ expand(%)$ y : ratsimp(%)$
-kill(p)$  /* <--- in order to redefine p */
-p[n](u) := y[n]$
+f(x) := sin(3*%pi*x)-1/2*sin(15/2*%pi*x);
 
-/* P: Legendre Polynomials  =>  P[n](1) = 1 */
-_Legendre: makelist( ratsimp( expand( p[i](u)/p[i](1) )), i,1,N )$ kill(P)$
-P[n](u) := _Legendre[n] $
-
-/* Shifted Legendre Polynomials */
-makelist( P[i](2*u-1), i,1,N )$ expand(%)$ shifted_L : ratsimp(%); kill(L)$
-L[n](u) := shifted_L[n]$
+kill(mu)$
+mu[k](f) := integrate( f(x)*x^(k-1), x, 0, 1);
+makelist( mu[i](f), i, 1, N+1)$ moments: float(%);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-u_aprox : shifted_L . ( C . transpose(float(U)) )$
-u_2(x) := subst( [u=x], u_aprox );
-u_2(1);
+_alpha : transpose( C . transpose(moments) )$
+kill(alpha)$
+alpha : makelist( _alpha[1][i] * (2*i+1), i,1,N+1);
+
+f_aprox(x) := sum( alpha[i] * L[i](x), i, 1, N+1 )$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-plot2d( u(x), [x, 0, 1])$
+transpose(alpha);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-plot2d( u_2(x), [x, 0, 1])$
+plot2d( [f(x), f_aprox(x)-f_aprox(0)],
+        [x, 0, 1],
+        [color, red, green] )$
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */

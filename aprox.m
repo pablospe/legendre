@@ -1,41 +1,33 @@
-function [alpha] = aprox(n, x)
-%     a = 0;
-%     b = 2*pi;
-%     alpha = double(zeros(1,n));
-%     for i = 1:n
-%         res = 0;
-%         for j = 1:n
-%             res = res + legendre_coefficients(i-1,j-1) * mu(j-1,x,b) / b+1 /(2*j);
-%         end
-%          
-%          alpha(i) = res;
-%     end
-%     
-%     t = 0:0.001:n;
-%     plot(t, polyval( wrev(alpha), t) );
-% %     axis([0 0.8 -1.3 1.6]);
-% end
-
-    a = 0;
-    b = 2*pi;
-    U = transpose( moments(n, x, b) / 2*b+1 );
+function [alpha, U, C] = aprox(n, x)
+    L = 1;
+    U = moments(n, x, L)';  
     C = legendre_coefficients_matrix(n);
     
     alpha = double(zeros(1,n));
     for i = 1:n
-        alpha(i) = C(i,:) * U / 2*i+1;
+        alpha(i) = C(i,:) * U * (2*i+1);
     end
-       
-    t = 0:0.001:n;
-    plot(t, x_aprox(t,alpha,C,n) );
-%     axis([0 0.8 -1.3 1.6]);
+    
+    Poli_Legendre = fliplr(C);
+    
+    delta = 0.0001;
+    t = 0:delta:L;    
+    
+%     plot(t, aprox_eval(alpha, Poli_Legendre, n, t) - aprox_eval(alpha, Poli_Legendre, n, 0) );
+    plot(t, aprox_eval(alpha, Poli_Legendre, n, t) );
+    title( ['N = ',int2str(n)] );
+    axis([0 0.8 -1.5 2.5]);
+    hold on;
+    plot(t, u(t), 'Color', 'red' );
+    hold off;
 end
 
 
-
-function ret = x_aprox(x,alpha,C,n)
+function ret = aprox_eval( alpha, fliplr_C, n, t )
     ret = 0;
-    for i = 1:n
-        ret = ret + alpha(i)*legendre_eval(i, C, x);
-    end
+    for k=1:n
+        ret = ret + alpha(k) * polyval( fliplr_C(k,:), t);
+    end     
+    
+            
 end

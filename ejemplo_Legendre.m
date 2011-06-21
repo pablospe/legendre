@@ -10,18 +10,21 @@ N=10;
 Poli_Legendre = fliplr(legendre_coefficients_matrix(N));
 xx=[0:1/length(x):1-1/length(x)]';
 Lx=[];
+
 for k=1:N
-Lx=[Lx,polyval(Poli_Legendre(k,:),xx)];
+    Lx=[Lx,polyval(Poli_Legendre(k,:),xx)];
 end
 Lambdax=Lx\x;
 xest=Lx*Lambdax;
+
 yy=[0:1/length(y):1-1/length(y)]';
 Ly=[];
 for k=1:N
-Ly=[Ly,polyval(Poli_Legendre(k,:),yy)];
+    Ly=[Ly,polyval(Poli_Legendre(k,:),yy)];
 end
 Lambday=Ly\y;
 yest=Ly*Lambday;
+
 figure(1)
 subplot(211)
 plot(xx,x,xx,xest)
