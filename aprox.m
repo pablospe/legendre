@@ -13,9 +13,10 @@ function [alpha, U, C] = aprox(n, f, L)
     
     % Plot aprox function
     t = 0:delta:1;
-    plot( t*L, aprox_eval(alpha, Poli_Legendre, n, t) );
+    plot( t*L, aprox_eval(alpha, Poli_Legendre, n, t) - aprox_eval(alpha, Poli_Legendre, n, 0) );
+%     plot( t*L, aprox_eval(alpha, Poli_Legendre, n, t) );
     title( ['N = ',int2str(n)] );
-    axis([0 L -1.5 2.5]);
+    axis([0 L -1.089 1.482]);
     
     % Plot real function
     t = 0:delta:L;
