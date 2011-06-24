@@ -1,5 +1,5 @@
 function f_est = aprox_discreta(n, f)
-    [U,delta] = moments_discreto(n, f);  
+    U = moments_discreto(n, f);  
     C = legendre_coefficients_matrix(n);
     U=U';
     alpha = double(zeros(1,n));
@@ -9,7 +9,7 @@ function f_est = aprox_discreta(n, f)
     
     Poli_Legendre = fliplr(C);
     
-    %delta = 0.001;
+    delta = 1/length(f);
     
     figure(1);
     % Plot aprox function

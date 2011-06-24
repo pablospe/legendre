@@ -1,4 +1,4 @@
-function [muk,delta]=momento(f,k)
+function muk=momento(f,k)
 delta=1/length(f);
 muk=0;
 for n=1:length(f)-1
