@@ -1,6 +1,14 @@
 function ret = mu(k, f, L)
+
+% ret=0;
+% delta = 1/1000;
+% for i = 0:L*1000
+%     ret = ret + ( f(i*delta)*i^k + (i+1)^k*f(i*delta+1) )/2*(delta^(k+1));
+% end
+
+
     ret = 0;
-    delta = 0.0001;
+    delta = 0.001;
     for i = 0:delta:L
         a = i;
         b = a + delta;

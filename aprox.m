@@ -4,7 +4,7 @@ function [alpha, U, C] = aprox(n, f, L)
     
     alpha = double(zeros(1,n));
     for i = 1:n
-        alpha(i) = C(i,:) * U * (2*i+1);
+        alpha(i) = C(i,:) * U;
     end
     
     Poli_Legendre = fliplr(C);
