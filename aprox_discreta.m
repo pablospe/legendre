@@ -15,23 +15,20 @@ function f_est = aprox_discreta(n, f)
     % Plot aprox function
     t = 0:delta:1;
     f_est = aprox_eval(alpha, Poli_Legendre, n, t);
-%     plot( t, f_est - f_est(1) );
-%     title( ['N = ',int2str(n)] );
-%     f=f_est;
-%     fmin = min(f);
-%     fmax = max(f);
-%     axis([0 1 fmin-fmin*0.01 fmax+fmax*0.01]);
+    plot( t, f_est );
+    title( ['N = ',int2str(n)] );
+    fmin = min(f);
+    fmax = max(f);
+    axis([0 1 fmin-fmin*0.01 fmax+fmax*0.01]);
     
     
     % Plot real function
-%     t = 0:delta:1;
-%     hold on;
-%     plot( t(1:end-1), f, 'Color', 'red' );
-%     hold off;
-%     
-%     RMS1 = vpa(RMS( f, f_est ))
-%     RMS2 = vpa(RMS( f, f_est - f_est(1) ))
-    f_est = f_est - f_est(1);
+    t = 0:delta:1;
+    hold on;
+    plot( t(1:end-1), f, 'Color', 'red' );
+    hold off;
+    
+    RMS1 = vpa(RMS( f, f_est ))
 end
 
 
