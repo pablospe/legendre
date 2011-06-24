@@ -1,8 +1,8 @@
-function f_est = aprox_discreta(n, f)
+function f_est = aprox_discreta(n, f, b)
     L = length(f);
     delta = 1/L;
     
-    U = moments_discreto(n, f, L);
+    U = moments_discreto(n, f, b, L);
     U=U';
     
     C = legendre_coefficients_matrix(n);
