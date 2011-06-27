@@ -1,9 +1,22 @@
-function muk=momento(f,k,b,L)
+function muk=momento(k, f, L, b)
+
+% mi version
+muk = 0;
 delta=b/L;
-muk=0;
-for n=1:L-1
-    muk=muk+( f(n)/2*(delta^(k+1))*(n-1)^k + n^k/2*(delta^(k+1))*f(n+1) );
+for i = 1:L-1
+    muk = muk + ( f(i)*((i-1)*delta)^k + f(i+1)*(i*delta)^k )/2;
 end
+
+
+
+% % JCG
+% delta=b/L;
+% muk=0;
+% for n=1:L-1
+%     muk=muk+( f(n)/2*(delta^(k+1))*(n-1)^k + n^k/2*(delta^(k+1))*f(n+1) );
+% end
+% 
+% 
 
 % delta=1/L;
 % muk=0;
