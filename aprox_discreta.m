@@ -33,6 +33,9 @@ function [f_est,alpha] = aprox_discreta(n, f)
     hold off;
     
     RMS1 = vpa(RMS( f, f_est ))
+    
+    % Normalization
+    alpha = alpha/norm(alpha);
 end
 
 
