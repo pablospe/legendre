@@ -1,4 +1,4 @@
-function blackboard
+function whiteboard
 f = figure;
 
 pt = [0 0];
