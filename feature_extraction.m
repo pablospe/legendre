@@ -1,3 +1,8 @@
+function curves_features = feature_extraction( x, y, d )
+    [x_est,x_alpha] = aprox_discreta(d, x);
+    [y_est,y_alpha] = aprox_discreta(d, y);
+    curves_features = [x_alpha y_alpha];
+end
 
 
 % xest2 = aprox_discreta(15,x);
@@ -13,26 +18,26 @@
 %         current = set*10 + dig
 %         x = traces_x{current};
 %         [x_est,x_alpha] = aprox_discreta(15, x);
-%                 
+% %         pause;
 %         y = traces_y{current};
 %         [y_est,y_alpha] = aprox_discreta(15, y);
-%        
+% %         pause;
 %         features{current} = [x_alpha y_alpha];
 %     end
 % end
 
-training = [];
-for i=1:20
-    training = [ training; features{i} ];
-end
+% training = [];
+% for i=1:20
+%     training = [ training; features{i} ];
+% end
+% 
+% group = [[1:10], [1:10]];
 
-group = [[1:10], [1:10]];
-
-sample = [];
-for i=21:30
-    r = randi([21 30],1);
-    sample = [ sample; features{ r } ];
+% sample = [];
+% for i=21:30
+%     r = randi([21 30],1);
+% %     sample = [ sample; features{ r } ];
 %     sample = [ sample; features{ i } ];
-end
+% end
 
-class = knnclassify(sample, training, group)
+% class = knnclassify(sample, training, group)

@@ -6,7 +6,7 @@ function ret = moments_discreto(n, f, L)
 %         ret(i) = mu(i-1, f, L, L) / L^i;
 
         ret(i) = momento(i-1, f/L, L, 1);  % con version mi version
-%       ret(i) = momento(i-1, f, L, 1);    % con version de JCG
+%         ret(i) = momento(i-1, f, L, 1);    % con version de JCG
 
     end
 end
