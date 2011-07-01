@@ -6,7 +6,14 @@ end
 
 len=length(x);
 for L=1:len-1
-    plot(x(1:L),y(1:L));
+    plot( x(1:L), y(1:L), '-o', ...
+        'LineWidth', 1,  ...
+        'MarkerEdgeColor','b', ...
+        'MarkerFaceColor','g', ...
+        'MarkerSize', 4);    
+    
+%     plot(x(1:L),y(1:L));
+    
     axis([min(x) max(x) min(y) max(y)]);
     pause( total_time/len );
 end
