@@ -1,14 +1,4 @@
-%%
-i=2;
-f{i} = feature_extraction_db(db_splited, 10, i);
-i=3;
-f{i} = feature_extraction_db(db_splited, 10, i);
-i=6;
-f{i} = feature_extraction_db(db_splited, 10, i);
-i=9;
-f{i} = feature_extraction_db(db_splited, 10, i);
-i=10;
-f{i} = feature_extraction_db(db_splited, 10, i);
+
 
 
 %%
@@ -19,14 +9,26 @@ curves_features = feature_extraction( x, y, 10 );
 
 
 %%
+
+% N = length(db_splited);
+N = 110;
+
     training = [];
-    for i=[2 3 6 9 10]
-        training = [ training; db{i} ];
+    group = [];
+    for label=[2 3 6 9 10]   % single-stoke
+        for i=1:N
+            training = [ training; db_splited{label,i}.features ];
+            group = [ group; mod(label,10) ];
+        end
     end
 
-    group = [[1:10], [1:10]];
+%     group = [[1:10], [1:10]];
 
-    sample = curve_features;
+    sample = [];
+    for i=1:N
+        sample = [ sample; db_splited_testing{9,i}.features ];
+    end
+    
     % for i=21:30
     %     r = randi([21 30],1);
     % %     sample = [ sample; db{ r } ];
