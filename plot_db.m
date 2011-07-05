@@ -10,11 +10,11 @@ end
     
     db_split = split(db);
     
-    for idx=46:MAX
+    for idx=1:MAX
         idx
-        for i = 9 %[1 4 5 7]
+        for i = 1:10 %[1 4 5 7]
 %             if( aprox == 0 )
-                subplot_db( db_split, i, idx, 0.15 );
+                subplot_db( db_split, i, idx, 0.3 );
 %             else
                 
 %             end           
@@ -30,7 +30,12 @@ function subplot_db( db, pos, idx, total_time )
     
     x = (x-min(x))/(max(x)-min(x));
     y = (y-min(y))/(max(y)-min(y));
-     
+    
+
+    
+%     x = x(1:end-1);
+%     y = y(1:end-1);
+    
     draw_trace( x, -y+1, total_time);
 end
 
