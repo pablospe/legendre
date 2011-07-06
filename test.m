@@ -10,10 +10,11 @@ curves_features = feature_extraction( x, y, 10 );
 %%
 d = 16;
 num = 9;
+global C;
 C = legendre_coefficients_matrix(d);
-db_training1 = feature_extraction_db( db_training1, d );
+db = feature_extraction_db( db, d );
 db_testing = feature_extraction_db( db_testing, d );
-db_splited_training1 = split(db_training1);
+db_splited_training1 = split(db);
 db_splited_testing = split(db_testing);
 
 
@@ -31,17 +32,62 @@ end
 
 %     group = [[1:10], [1:10]];
 
-sample = [];
+testing = [];
 for i=1:N
-    sample = [ sample; db_splited_testing{num,i}.features ];
+    testing = [ testing; db_splited_testing{num,i}.features ];
 end
 
 % for i=21:30
 %     r = randi([21 30],1);
-% %     sample = [ sample; db{ r } ];
-%     sample = [ sample; db{ i } ];
+% %     testing = [ testing; db{ r } ];
+%     testing = [ testing; db{ i } ];
 % end
 
-class = knnclassify(sample, training, group);
+class = knnclassify(testing, training, group);
 
 s = [d,num,length(class(class==num))/length(class)]
+
+
+%% test
+d=6
+global C;
+C = legendre_coefficients_matrix(d);
+
+db = feature_extraction_db(db, d);
+
+% cross-validation
+mat_labels = cell2mat(db.get_labels());
+mat_labels = mat_labels(mat_labels~='1');
+
+percentaje = 0.9;   % training percentaje: 90 %
+
+training = [];
+training_class = [];
+testing = [];
+testing_class = [];
+for label=mat_labels
+    N = db.size(label);
+%     r = randperm(N);
+    
+    % r = [training_domain testing_domain]
+    training_domain = r(1:N*percentaje);
+    testing_domain  = r(N*percentaje+1:end);
+    
+    % training
+    for i=training_domain     
+        training = [ training; db.get_trace(label,i).features ];
+        training_class = [ training_class; label ];
+%         [num2cell(label),i]
+    end
+    
+    % testing
+    for i=testing_domain
+        testing = [ testing; db.get_trace(label,i).features ];
+        testing_class = [ testing_class; label ];
+    end
+end
+
+
+class = knnclassify(testing, training, training_class);
+100 * sum(class == testing_class) / length(class)
+

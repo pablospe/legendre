@@ -1,7 +1,7 @@
 classdef database
 
-properties (SetAccess = private)
-      db         % db{ label, element_number } = element
+properties (SetAccess = public)
+      db         % db{ label, element_index } = element
       map        % map( label ) = number
       db_raw     % raw data, from the program: "unipen -> matlab"
 end
@@ -63,8 +63,6 @@ methods
        ret = values(obj.map);
     end
     
-    
-
     %% plot
     function plot( obj, total_time, set_of_labels, n, m ) 
         if nargin < 2
@@ -95,7 +93,7 @@ methods
         end          
     end
     
-    %%
+    %
     function subplot( obj, label, pos, idx, total_time, n, m )
         subplot(n, m, mod(pos,n*m)+1 )
         x = obj.get_trace(label,idx).channel{1};
@@ -105,7 +103,7 @@ methods
         y = (y-min(y))/(max(y)-min(y));
         
         draw_trace( x, -y+1, total_time);
-    end   
-
+    end    
+    
     end % methods block
 end % classedf

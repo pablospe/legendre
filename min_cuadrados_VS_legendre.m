@@ -1,7 +1,10 @@
-f = u( [0:0.0001:1] )';
-x = f;
+% f = u( [0:0.0001:1] )';
+% x = f;
 
-for N=7:25
+x = db.get_trace('1',27).channel{1}';
+
+
+for N=9
     
     % MinCuadrados
     Poli_Legendre = fliplr(legendre_coefficients_matrix(N));
@@ -29,19 +32,20 @@ for N=7:25
 
     
     % Legendre
-    subplot(122)
-    xest2 = aprox_discreta(N,x);
-    xest2 = xest2(1:end-1);
-    plot(xx, xest2)
-    title( ['N = ',int2str(N)] );
-    axis([0 1 fmin-fmin*0.01 fmax+fmax*0.01]);
-    hold on;
-    plot( xx, x, 'Color', 'red');
-    hold off;
-    
-    error = bestfit( x, xest2' )
+%     subplot(122)
+%     C = legendre_coefficients_matrix(N);
+%     xest2 = aprox_discreta(N,x);
+%     xest2 = xest2(1:end-1);
+%     plot(xx, xest2)
+%     title( ['N = ',int2str(N)] );
+%     axis([0 1 fmin-fmin*0.01 fmax+fmax*0.01]);
+%     hold on;
+%     plot( xx, x, 'Color', 'red');
+%     hold off;
+%     
+%     error = bestfit( x, xest2' )
         
-    pause;
+%     pause;
 end
 
 
