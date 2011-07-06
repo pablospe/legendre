@@ -8,15 +8,23 @@ curves_features = feature_extraction( x, y, 10 );
 
 
 %%
+d = 16;
+num = 9;
+C = legendre_coefficients_matrix(d);
+db_training1 = feature_extraction_db( db_training1, d );
+db_testing = feature_extraction_db( db_testing, d );
+db_splited_training1 = split(db_training1);
+db_splited_testing = split(db_testing);
+
 
 % N = length(db_splited);
 N = 110;
 
 training = [];
 group = [];
-for label=[2 3 6 9 10]   % single-stoke
+for label=1:10
     for i=1:N
-        training = [ training; db_splited{label,i}.features ];
+        training = [ training; db_splited_training1{label,i}.features ];
         group = [ group; mod(label,10) ];
     end
 end
@@ -25,7 +33,7 @@ end
 
 sample = [];
 for i=1:N
-    sample = [ sample; db_splited_testing{9,i}.features ];
+    sample = [ sample; db_splited_testing{num,i}.features ];
 end
 
 % for i=21:30
@@ -34,5 +42,6 @@ end
 %     sample = [ sample; db{ i } ];
 % end
 
-class = knnclassify(sample, training, group)
+class = knnclassify(sample, training, group);
 
+s = [d,num,length(class(class==num))/length(class)]

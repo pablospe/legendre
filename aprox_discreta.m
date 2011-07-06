@@ -1,11 +1,20 @@
 function [f_est,alpha] = aprox_discreta(n, f)
+    global C;
+    
     L = length(f);
     delta = 1/L;
     
     U = moments_discreto(n, f, L);
     U=U';
     
-    C = legendre_coefficients_matrix(n);
+    
+%     persistent C
+%     if isempty(C)
+%         C = legendre_coefficients_matrix(n);
+%     end
+
+    
+
 
     alpha = double(zeros(1,n));
     for i = 1:n

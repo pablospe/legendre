@@ -1,16 +1,22 @@
 % split db
-function db_split = split( db )
+function [db_split, map_labels] = split( db )
     N = length(db);
-    indices = zeros(1,10);
+    
+    idx = containers.Map;   % label -> number of labels
     for i=1:N
-        idx = str2num(db{i}.label);
-
-        if  db{i}.label == '0'
-            idx = 10;
-        end
-
-        indices(idx) = indices(idx)+1;
-
-        db_split{idx,indices(idx)} = db{i};
+        % Current label
+        current_label = db{i}.label;
+        
+        % create map
+        if  idx.isKey( current_label ) == 0
+            idx( current_label ) = 1;
+        else
+            idx( current_label ) = idx( current_label ) + 1;
+        end       
+        
+        % create database
+        db_split{ current_label, idx(current_label) } = db{i};
     end
+    
+    map_labels = idx;
 end

@@ -1,26 +1,35 @@
-function plot_db( db, aprox ) 
+function plot_db( db, range, num, total_time, aprox ) 
+
+MAX = 110; % cantidad de sample por numeros
+
+figure(1);  
+db_split = split(db);
+
 
 if nargin < 2
+    range = 1:MAX;
+end
+if nargin < 3
+    num = 1:10;
+end
+if nargin < 4
+    total_time = 0.15;
+end
+if nargin < 5
     aprox = 0;
 end
 
-    figure(1);
 
-    MAX = 110; % cantidad de sample por numeros
-    
-    db_split = split(db);
-    
-    for idx=1:MAX
+    for idx=range
         idx
-        for i = 1:10 %[1 4 5 7]
+        for i = num
 %             if( aprox == 0 )
-                subplot_db( db_split, i, idx, 0.3 );
+                subplot_db( db_split, i, idx, total_time );
 %             else
                 
 %             end           
         end
     end
-
 end
 
 function subplot_db( db, pos, idx, total_time )
