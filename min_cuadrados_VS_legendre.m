@@ -8,8 +8,8 @@ global C;
 
 % time = [];
 % t_total_1 = cputime;
-7*ones(1,1000)
-for N=3:25
+% 7*ones(1,1000)
+for N=7
     C = legendre_coefficients_matrix(N);
 
     % MinCuadrados
@@ -25,7 +25,7 @@ for N=3:25
     subplot(121)
     [alpha, xest] = aprox_minCuadrado(N,x);
     plot_aprox( x, xest, t, 'Minimos cuadrados' );
-    error_minimos_cuadrado = bestfit( x, xest );
+    error_minimos_cuadrado = bestfit( x, xest )
 
 
     % Legendre
@@ -33,9 +33,9 @@ for N=3:25
     [alpha2, xest2] = aprox_discreta(N,x);
     xest2 = xest2(1:end-1);
     plot_aprox( x, xest2, t, ['N = ',int2str(N)] );
-    error_legendre = bestfit( x, xest2 );
+    error_legendre = bestfit( x, xest2 )
     
-    [error_minimos_cuadrado, error_legendre]
+%     [error_minimos_cuadrado, error_legendre]
 
 %     pause(0.25);
 end
