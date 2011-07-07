@@ -1,51 +1,32 @@
-% f = u( [0:0.0001:1] )';
-% x = f;
+f = u( [0:0.0001:1] );
+x = f;
 
-x = db.get_trace('1',27).channel{1}';
+% x = db.get_trace('1',27).channel{1}';
 
 
-for N=9
-    
+for N=7:20
     % MinCuadrados
-    Poli_Legendre = fliplr(legendre_coefficients_matrix(N));
-    xx=[0:1/length(x):1-1/length(x)]';
-    Lx=[];
+    global C;
+    C = legendre_coefficients_matrix(N);
 
-    for k=1:N
-        Lx=[Lx,polyval(Poli_Legendre(k,:),xx)];
-    end
-    Lambdax=Lx\x;
-    xest=Lx*Lambdax;
-
-    figure(1)
+    L = length(x);
+    delta = 1/L;
+    t = [0:delta:1-1/L]';    
+    
+    %
     subplot(121)
-    plot( xx, xest, 'Color', 'green' );
-    title( ['Minimos cuadrados'] );
-    fmin = min(x);
-    fmax = max(x);
-    axis([0 1 fmin-fmin*0.01 fmax+fmax*0.01]);
-    hold on;
-    plot( xx, x, 'Color', 'red');
-    hold off;
-
+    [xest,alpha] = aprox_minCuadrado(N,x);
+    plot_aprox( x, xest, t, 'Minimos cuadrados' );
     error_minimos_cuadrado = bestfit( x, xest )
-
     
     % Legendre
-%     subplot(122)
-%     C = legendre_coefficients_matrix(N);
-%     xest2 = aprox_discreta(N,x);
-%     xest2 = xest2(1:end-1);
-%     plot(xx, xest2)
-%     title( ['N = ',int2str(N)] );
-%     axis([0 1 fmin-fmin*0.01 fmax+fmax*0.01]);
-%     hold on;
-%     plot( xx, x, 'Color', 'red');
-%     hold off;
-%     
-%     error = bestfit( x, xest2' )
+    subplot(122)
+    [xest2,alpha2] = aprox_discreta(N,x);
+    xest2 = xest2(1:end-1);
+    plot_aprox( x, xest2, t, ['N = ',int2str(N)] );
+    error = bestfit( x, xest2 )
         
-%     pause;
+    pause(1);
 end
 
 
