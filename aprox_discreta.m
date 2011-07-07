@@ -16,15 +16,15 @@ function [alpha,f_est] = aprox_discreta(n, f)
     for i = 1:n
         alpha(i) = C(i,:) * U;
     end   
-   
-    % Normalization
-    alpha = alpha/norm(alpha);
-    
+      
     if nargout > 1
         Poli_Legendre = fliplr(C);
         t = 0:delta:1;
         f_est = aprox_eval(alpha, Poli_Legendre, n, t);
     end     
+    
+    % Normalization
+    alpha = alpha/norm(alpha);
 end
 
 
