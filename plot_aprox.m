@@ -1,5 +1,8 @@
-function plot_aprox( f, f_aprox, t, str_title )
-%     figure(1)
+function plot_aprox( f, f_aprox, str_title )
+    L = length(f);
+    delta = 1/L;
+    t = 0:delta:1-1/L; 
+    
     plot( t, f_aprox, 'Color', 'green' );
     title( str_title );
     fmin = min(f);

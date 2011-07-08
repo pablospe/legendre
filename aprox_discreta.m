@@ -1,4 +1,4 @@
-function [f_est,alpha] = aprox_discreta(n, f)
+function [alpha,f_est] = aprox_discreta(n, f)
     global C;
     
     L = length(f);
@@ -7,41 +7,21 @@ function [f_est,alpha] = aprox_discreta(n, f)
     U = moments_discreto(n, f, L);
     U=U';
     
-    
 %     persistent C
 %     if isempty(C)
 %         C = legendre_coefficients_matrix(n);
 %     end
 
-    
-
-
     alpha = double(zeros(1,n));
     for i = 1:n
         alpha(i) = C(i,:) * U;
-    end
-    
-    Poli_Legendre = fliplr(C);
-    
-   
-%     figure(1);
-    % Plot aprox function
-    t = 0:delta:1;
-    f_est = aprox_eval(alpha, Poli_Legendre, n, t);
-%     plot( t, f_est );
-%     title( ['N = ',int2str(n)] );
-%     fmin = min(f);
-%     fmax = max(f);
-%     axis([0 1 fmin-fmin*0.01 fmax+fmax*0.01]);
-%     
-%     
-%     % Plot real function
-%     t = 0:delta:1;
-%     hold on;
-%     plot( t(1:end-1), f, 'Color', 'red' );
-%     hold off;
-    
-%     error = vpa(RMS( f, f_est ))
+    end   
+      
+    if nargout > 1
+        Poli_Legendre = fliplr(C);
+        t = 0:delta:1;
+        f_est = aprox_eval(alpha, Poli_Legendre, n, t);
+    end     
     
     % Normalization
     alpha = alpha/norm(alpha);
