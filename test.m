@@ -50,12 +50,12 @@ s = [d,num,length(class(class==num))/length(class)]
 
 %% test
 result = []
-for d=1:25
+for d=3:20
     global C;
     C = legendre_coefficients_matrix(d);
 
     % Features extraction
-    db = feature_extraction_db(db, d);
+%     db = feature_extraction_db(db, d);
 
     % cross-validation
     mat_labels = cell2mat(db.get_labels());
@@ -69,7 +69,7 @@ for d=1:25
     testing_class = [];
     for label=mat_labels
         N = db.size(label);
-    %     r = randperm(N);
+%         r = randperm(N);
 
         % r = [training_domain testing_domain]
         training_domain = r(1:N*percentaje);
@@ -90,7 +90,8 @@ for d=1:25
     end
 
 
-    class = knnclassify(testing, training, training_class);
+    class = knnclassify(testing, training, training_class, 1, 'cityblock' );
+%     class = classify(testing, training, training_class, 'mahalanobis' );
     recognition = 100 * sum(class == testing_class) / length(class);
     [d recognition]
     result = [ result; [d recognition]];
@@ -99,11 +100,31 @@ end
 
 %%
 
-result_minCuadrados = result
+% result_minCuadrados = result
+% result_minCuadrados_cityblock = result;
+% result_minCuadrados_mahalanobis = result;
+
+
 % result_legendre = result
+% result_legendre_cityblock = result
+result_legendre_mahalanobis = result;
 
 
-plot( result_minCuadrados(:,1), result_minCuadrados(:,2), '-o', 'MarkerFaceColor','b');
+% plot( result_minCuadrados(:,1), result_minCuadrados(:,2), '-o', 'MarkerFaceColor','b');
+
+plot( result_minCuadrados_cityblock(:,1), result_minCuadrados_cityblock(:,2), '-o', 'Color', 'blue', 'MarkerFaceColor','b');
 hold on;
-plot( result_legendre(:,1), result_legendre(:,2), '-o', 'Color', 'green', 'MarkerFaceColor','g');
+plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2), '-o', 'Color', 'red', 'MarkerFaceColor','b');
+
+
+% plot( result_legendre(:,1), result_legendre(:,2), '-o', 'Color', 'green', 'MarkerFaceColor','g');
+% plot( result_legendre_cityblock(:,1), result_legendre_cityblock(:,2), '-o', 'Color', 'red', 'MarkerFaceColor','g');
+plot( result_legendre_mahalanobis(:,1), result_legendre_mahalanobis(:,2), '-o', 'Color', 'green', 'MarkerFaceColor','g');
 hold off;
+
+
+%%
+x = (0: 0.1: 2.5)';
+y = erf(x);
+p = polyfit(x,y,6);
+
