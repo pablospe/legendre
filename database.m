@@ -1,6 +1,6 @@
-classdef database
+classdef database < handle
 
-properties (SetAccess = public)
+properties (SetAccess = private)
       db         % db{ label, element_index } = element
       map        % map( label ) = number
       db_raw     % raw data, from the program: "unipen -> matlab"
@@ -104,6 +104,16 @@ methods
         
         draw_trace( x, -y+1, total_time);
     end    
+    
+    %% Feature Extraction
+    function obj = feature_extraction( obj, d )
+        mat_labels = cell2mat(obj.get_labels());
+        for label=mat_labels
+            for i=1:obj.size(label)
+                obj.db{label,i} = fe( obj.db{label,i}, Method.moments_L, d);
+            end
+        end
+    end
     
     end % methods block
 end % classedf

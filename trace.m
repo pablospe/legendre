@@ -10,11 +10,9 @@ classdef trace
         % m: method
         % d: degree
         function obj = fe( obj, m, d )
-            global method;
-
-            obj.features{method(m),d} = feature_extraction( obj.channel{1}, ...
-                                                            obj.channel{2}, ...
-                                                            d );           
-        end
+            obj.features{m,d} = feature_extraction( obj.channel{1}, ...
+                                                    obj.channel{2}, ...
+                                                    d );           
+       end
     end
 end

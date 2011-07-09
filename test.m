@@ -1,10 +1,3 @@
-%% methods
-global method;
-method = containers.Map;
-method('moments_L') = 1;
-method('least_square_L') = 2;
-
-
 %% Features extraction
 for d=3:25
     global C;
