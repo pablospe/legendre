@@ -1,11 +1,15 @@
-function curves_features = feature_extraction( x, y, d )
-% Legendre
-%     x_alpha = aprox_discreta(d, x);
-%     y_alpha = aprox_discreta(d, y);
+function curves_features = feature_extraction( x, y, m, d )
+    switch(m)
+        case Method.moments_L      
+        % Legendre
+        x_alpha = aprox_discreta(d,x);
+        y_alpha = aprox_discreta(d,y);
 
-% MinCuadrados
-    x_alpha = aprox_minCuadrado(d, x);
-    y_alpha = aprox_minCuadrado(d, y);
+        case Method.least_square_L
+        % MinCuadrados
+        x_alpha = aprox_minCuadrado(d,x);
+        y_alpha = aprox_minCuadrado(d,y);
+    end
 
     curves_features = [x_alpha y_alpha];
 end

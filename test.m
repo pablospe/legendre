@@ -1,13 +1,17 @@
+%%  Method
+m = Method.least_square_L;
+
 %% Features extraction
 for d=3:25
     global C;
-    C = legendre_coefficients_matrix(d);
-
-    db = feature_extraction_db(db, d);
+    C = legendre_coefficients_matrix(d);  
+    
+    disp( ['feature_extraction  -  d = ', num2str(d)] );    
+    db.feature_extraction( m, d );
 end
 
 %% cross-validation
-m = 'least_square_L';
+% r = randperm(110);
 result = []
 for d=3:25
 
@@ -30,22 +34,22 @@ for d=3:25
 
         % training
         for i=training_domain     
-            training = [ training; db.get_trace(label,i).features{method(m),d} ];
+            training = [ training; db.get_trace(label,i).features{m,d} ];
             training_class = [ training_class; label ];
     %         [num2cell(label),i]
         end
 
         % testing
         for i=testing_domain
-            testing = [ testing; db.get_trace(label,i).features{method(m),d} ];
+            testing = [ testing; db.get_trace(label,i).features{m,d} ];
             testing_class = [ testing_class; label ];
         end
     end
 
 
 %     class = knnclassify(testing, training, training_class, 1, 'cityblock' );
-    class = knnclassify(testing, training, training_class, 1, 'euclidean' );
-%     class = classify(testing, training, training_class, 'mahalanobis' );
+%     class = knnclassify(testing, training, training_class, 1, 'euclidean' );
+    class = classify(testing, training, training_class, 'mahalanobis' );
     recognition = 100 * sum(class == testing_class) / length(class);
     [d recognition]
     result = [ result; [d recognition]];
@@ -57,7 +61,8 @@ end
 % result_minCuadrados = result;
 % result_minCuadrados_cityblock = result;
 % result_minCuadrados_mahalanobis = result;
-
+% result_minCuadrados_linear = result; 
+% result_minCuadrados_quadratic = result;
 
 % result_legendre = result
 % result_legendre_cityblock = result
@@ -70,6 +75,9 @@ plot( result_minCuadrados_cityblock(:,1), result_minCuadrados_cityblock(:,2), '-
 % hold on;
 plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2), '-o', 'Color', 'red', 'MarkerFaceColor','b');
 
+plot( result_minCuadrados_linear(:,1), result_minCuadrados_linear(:,2), '-o', 'Color', 'green', 'MarkerFaceColor','r');
+
+plot( result_minCuadrados_quadratic(:,1), result_minCuadrados_quadratic(:,2), '-x', 'Color', 'black', 'MarkerFaceColor','g');
 
 % plot( result_legendre(:,1), result_legendre(:,2), '-o', 'Color', 'green', 'MarkerFaceColor','g');
 % plot( result_legendre_cityblock(:,1), result_legendre_cityblock(:,2), '-o', 'Color', 'red', 'MarkerFaceColor','g');

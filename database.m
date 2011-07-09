@@ -106,11 +106,11 @@ methods
     end    
     
     %% Feature Extraction
-    function obj = feature_extraction( obj, d )
+    function obj = feature_extraction( obj, m, d )
         mat_labels = cell2mat(obj.get_labels());
         for label=mat_labels
             for i=1:obj.size(label)
-                obj.db{label,i} = fe( obj.db{label,i}, Method.moments_L, d);
+                obj.db{label,i} = fe( obj.db{label,i}, m, d );
             end
         end
     end
