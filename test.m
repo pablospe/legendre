@@ -1,5 +1,5 @@
 %%  Method
-m = Method.moments_L;
+m = Method.least_square_L;
 
 %% Features extraction
 for d=3:25
@@ -61,20 +61,21 @@ plot( result(:,1), result(:,2), ...
 t1 = cputime;
 N=100;
 for i=1:N
-    test{i} = test_data(db, m, 3:20, 0.9);
+    i
+    test{i} = test_data(db, m, 3:25, 0.9);
 end
 t1 = cputime-t1
 
 
 %% run tests
 
-% result_minCuadrados_euclidean = run_test( test, MethodRecog.euclidean );
-% result_minCuadrados_cityblock = run_test( test, MethodRecog.cityblock );
-% result_minCuadrados_mahalanobis = run_test( test, MethodRecog.mahalanobis);
+result_minCuadrados_euclidean   = run_test( test, MethodRecog.euclidean );
+result_minCuadrados_cityblock   = run_test( test, MethodRecog.cityblock );
+result_minCuadrados_mahalanobis = run_test( test, MethodRecog.mahalanobis);
 
-result_legendre_euclidean = run_test( test_L, MethodRecog.euclidean );
-result_legendre_cityblock = run_test( test_L, MethodRecog.cityblock );
-result_legendre_mahalanobis = run_test( test_L, MethodRecog.mahalanobis);
+% result_legendre_euclidean = run_test( test_L, MethodRecog.euclidean );
+% result_legendre_cityblock = run_test( test_L, MethodRecog.cityblock );
+% result_legendre_mahalanobis = run_test( test_L, MethodRecog.mahalanobis);
 
 
 
@@ -90,15 +91,20 @@ plot( result_minCuadrados_cityblock(:,1), result_minCuadrados_cityblock(:,2), ..
 plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2), ...
       '-o', 'Color', 'red', 'MarkerFaceColor','b');
 
-   % legendre
-plot( result_legendre_euclidean(:,1), result_legendre_euclidean(:,2), ...
-       '-o', 'Color', 'blue', 'MarkerFaceColor','g'); 
-plot( result_legendre_cityblock(:,1), result_legendre_cityblock(:,2), ...
-      '-o', 'Color', 'cyan', 'MarkerFaceColor','g');
-plot( result_legendre_mahalanobis(:,1), result_legendre_mahalanobis(:,2), ...
-      '-o', 'Color', 'red', 'MarkerFaceColor','g');
+%    % legendre
+% plot( result_legendre_euclidean(:,1), result_legendre_euclidean(:,2), ...
+%        '-o', 'Color', 'blue', 'MarkerFaceColor','g'); 
+% plot( result_legendre_cityblock(:,1), result_legendre_cityblock(:,2), ...
+%       '-o', 'Color', 'cyan', 'MarkerFaceColor','g');
+% plot( result_legendre_mahalanobis(:,1), result_legendre_mahalanobis(:,2), ...
+%       '-o', 'Color', 'red', 'MarkerFaceColor','g');
   
   
 legend('euclidean',  'cityblock',   'mahalanobis', ...
        'euclidean_L','cityblock_L', 'mahalanobis_L' );
 hold off;
+
+
+%%
+
+

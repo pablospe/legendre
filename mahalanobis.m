@@ -24,7 +24,15 @@ function class = mahalanobis( testing, training, training_class )
     end
     
     labels = keys(sizes);
+      
+    for k=1:length(labels)
+        current_label = labels{k};
+        train{current_label}
+%         for i=1:sizes(labels{k})
+%             
+%         end
+    end
     
-     disp(train);
+    disp(train);
     
 end
