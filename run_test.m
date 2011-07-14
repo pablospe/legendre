@@ -27,7 +27,7 @@ function class = run_test_current( t, d, method )
       case MethodRecog.cityblock
           class = knnclassify(t.testing{d}, t.training{d}, t.training_class{d}, 1, 'cityblock' );
       case MethodRecog.mahalanobis
-%           class = classify(t.testing{d}, t.training{d}, t.training_class{d}, 'mahalanobis' );
-            class = mahalanobis(t.testing{d}, t.training{d}, t.training_class{d} );
+          class = classify(t.testing{d}, t.training{d}, t.training_class{d}, 'mahalanobis' );
+%             class = mahalanobis(t.testing{d}, t.training{d}, t.training_class{d} );
     end        
 end

@@ -18,7 +18,7 @@ mat_labels = cell2mat(db.get_labels());
 percentaje = 0.9;   % training percentaje: 90 %    
     
 result = [];
-for d=3:25
+for d=3:20
     training = [];
     training_class = [];
     testing = [];
@@ -45,9 +45,10 @@ for d=3:25
         end       
     end
     
-    class = knnclassify(testing, training, training_class, 1, 'cityblock' );
-    % class = knnclassify(testing, training, training_class, 1, 'euclidean' );
-    % class = classify(testing, training, training_class, 'mahalanobis' );
+%     class = knnclassify(testing, training, training_class, 1, 'cityblock' );
+    class = knnclassify(testing, training, training_class, 1, 'euclidean' );
+%     class = classify(testing, training, training_class, 'mahalanobis' );
+%     class = mahalanobis(testing, training, training_class );
     recognition = 100 * sum(class == testing_class) / length(class);
     [d recognition]
     result = [ result; [d recognition]];        
@@ -55,8 +56,8 @@ end
 
 plot( result(:,1), result(:,2), ...
       '-o', 'Color', 'blue', 'MarkerFaceColor','b'); 
-
-
+  
+  
 %% create test_data
 t1 = cputime;
 N=100;
@@ -67,11 +68,20 @@ end
 t1 = cputime-t1
 
 
+
+%%
+for i=1:10
+    test_10{i} = test{i};
+end
+
 %% run tests
 
-result_minCuadrados_euclidean   = run_test( test, MethodRecog.euclidean );
-result_minCuadrados_cityblock   = run_test( test, MethodRecog.cityblock );
-result_minCuadrados_mahalanobis = run_test( test, MethodRecog.mahalanobis);
+result_minCuadrados_euclidean   = run_test( test_10, MethodRecog.euclidean );
+a=1
+result_minCuadrados_cityblock   = run_test( test_10, MethodRecog.cityblock );
+a=2
+result_minCuadrados_mahalanobis = run_test( test_10, MethodRecog.mahalanobis);
+a=3
 
 % result_legendre_euclidean = run_test( test_L, MethodRecog.euclidean );
 % result_legendre_cityblock = run_test( test_L, MethodRecog.cityblock );
@@ -100,8 +110,8 @@ plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2)
 %       '-o', 'Color', 'red', 'MarkerFaceColor','g');
   
   
-legend('euclidean',  'cityblock',   'mahalanobis', ...
-       'euclidean_L','cityblock_L', 'mahalanobis_L' );
+legend('euclidean',  'cityblock',   'mahalanobis')
+%        'euclidean_L','cityblock_L', 'mahalanobis_L' );
 hold off;
 
 
