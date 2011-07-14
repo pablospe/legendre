@@ -1,8 +1,9 @@
 %%  Method
 m = Method.least_square_L;
+degree=3:20;
 
 %% Features extraction
-for d=3:25
+for d=degree
     global C;
     C = legendre_coefficients_matrix(d);  
     
@@ -18,7 +19,7 @@ mat_labels = cell2mat(db.get_labels());
 percentaje = 0.9;   % training percentaje: 90 %    
     
 result = [];
-for d=3:20
+for d=degree
     training = [];
     training_class = [];
     testing = [];
@@ -60,22 +61,17 @@ plot( result(:,1), result(:,2), ...
   
 %% create test_data
 t1 = cputime;
-N=100;
+N=10;
 for i=1:N
     i
-    test{i} = test_data(db, m, 3:25, 0.9);
+    test_10{i} = test_data(db, m, degree, 0.9);
 end
 t1 = cputime-t1
 
 
-
-%%
-for i=1:10
-    test_10{i} = test{i};
-end
-
 %% run tests
 
+    % minCuadrado
 result_minCuadrados_euclidean   = run_test( test_10, MethodRecog.euclidean );
 a=1
 result_minCuadrados_cityblock   = run_test( test_10, MethodRecog.cityblock );
@@ -83,6 +79,7 @@ a=2
 result_minCuadrados_mahalanobis = run_test( test_10, MethodRecog.mahalanobis);
 a=3
 
+    % legendre
 % result_legendre_euclidean = run_test( test_L, MethodRecog.euclidean );
 % result_legendre_cityblock = run_test( test_L, MethodRecog.cityblock );
 % result_legendre_mahalanobis = run_test( test_L, MethodRecog.mahalanobis);
@@ -100,8 +97,8 @@ plot( result_minCuadrados_cityblock(:,1), result_minCuadrados_cityblock(:,2), ..
       '-o', 'Color', 'cyan', 'MarkerFaceColor','b');
 plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2), ...
       '-o', 'Color', 'red', 'MarkerFaceColor','b');
-
-%    % legendre
+  
+   % legendre
 % plot( result_legendre_euclidean(:,1), result_legendre_euclidean(:,2), ...
 %        '-o', 'Color', 'blue', 'MarkerFaceColor','g'); 
 % plot( result_legendre_cityblock(:,1), result_legendre_cityblock(:,2), ...
@@ -112,9 +109,9 @@ plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2)
   
 legend('euclidean',  'cityblock',   'mahalanobis')
 %        'euclidean_L','cityblock_L', 'mahalanobis_L' );
+set(gca,'XTick',0:1:25); grid on;
+
 hold off;
 
 
 %%
-
-

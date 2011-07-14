@@ -1,57 +1,39 @@
 function class = mahalanobis( testing, training, training_class )
-    train = [];
+    [gindex,groups] = grp2idx(training_class);
+    ngroups = length(groups);
 
-    N = length(training);
-    
-    sizes = containers.Map;   % label -> number of sizes
-    for i=1:N
-        % Current label
-        current_label = training_class(i);
-
-        % create "sizes" size map
-        if  sizes.isKey( current_label ) == 0
-            sizes( current_label ) = 1;
-        else
-            sizes( current_label ) = sizes( current_label ) + 1;
-        end        
-    
-        % separate "train" data into labels
-        if sizes(current_label) == 1
-            train{current_label} = normalization( training(i,:) );
-        else
-            train{current_label} = [train{current_label}; normalization( training(i,:) ) ] ;
-        end
-    end 
-    
-    labels = keys(sizes);
-    Nk = length(labels);
     pattern = [];
     sigma = [];
-    for k=1:length(labels)
-        current_label = labels{k};
-        pattern{k} = mean( train{current_label} ); % pattern
-        sigma{k} = cov( train{current_label} );    % covarianza matrix
+    for k = 1:ngroups
+        train = training(gindex==k, :);
+        pattern{k} = mean(train);           % pattern
+        pinv_sigma{k} = pinv(cov(train));   % pinv( covarianza_matrix )
     end
 
     N = length(testing);
     class = [];
     for i=1:N
-        for k=1:Nk
-            d(k) = distance_mahalanobis( testing(i,:), pattern{k}, sigma{k} );
+        for k=1:ngroups
+            d(k) = distance_mahalanobis( testing(i,:), pattern{k}, pinv_sigma{k} );
         end
         [C,I] = min(d);
-        class = [class; labels{I} ];
+        class = [class; groups{I} ];
     end
 end
 
-function x = normalization( x )
-%     u = mean(x);
-%     des = sqrt(var(x));
-%     x = (x-u)/des;
-    x = x;
+function d = distance_mahalanobis( x, pattern, pinv_sigma )
+    d = (x-pattern)*pinv_sigma*(x-pattern)';
 end
 
 
+function x = normalization( x )
+    u = mean(x);
+    des = sqrt(var(x));
+    x = (x-u)/des;
+end
+
+
+% Equivalente a "mean()"
 function u = pattern( train )
     N = length(train);
     for i=1:N
@@ -64,7 +46,3 @@ function u = pattern( train )
     u = sum/N;
 end
 
-
-function d = distance_mahalanobis( x, pattern, sigma )
-    d = (x-pattern)*pinv(sigma)*(x-pattern)';
-end

@@ -4,7 +4,7 @@ function result = run_test( test_data, method )
     for i=1:N
         t = test_data{i};
         current_result = [];
-        for d=3:20
+        for d=t.degree
             class = run_test_current( t, d, method );
             recognition = 100 * sum(class == t.testing_class{d}) / length(class);
             
@@ -27,7 +27,7 @@ function class = run_test_current( t, d, method )
       case MethodRecog.cityblock
           class = knnclassify(t.testing{d}, t.training{d}, t.training_class{d}, 1, 'cityblock' );
       case MethodRecog.mahalanobis
-          class = classify(t.testing{d}, t.training{d}, t.training_class{d}, 'mahalanobis' );
-%             class = mahalanobis(t.testing{d}, t.training{d}, t.training_class{d} );
+%           class = classify(t.testing{d}, t.training{d}, t.training_class{d}, 'mahalanobis' );
+            class = mahalanobis(t.testing{d}, t.training{d}, t.training_class{d} );
     end        
 end
