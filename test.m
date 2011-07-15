@@ -60,24 +60,53 @@ plot( result(:,1), result(:,2), ...
   
   
 %% create test_data
-t1 = cputime;
+tic;
 N=10;
 for i=1:N
     i
     test_10{i} = test_data(db, m, degree, 0.9);
 end
-t1 = cputime-t1
+fprintf('Time: %3.2f sec\n',toc);
+
+%%
+% t = test_data;
+t = test_10{1};
+libsvmwrite('train.txt', double(t.training_class{12}), sparse(t.training{12}) );
+libsvmwrite('test.txt',  double(t.testing_class{12}), sparse(t.testing{12}) );
+libsvmwrite('db.txt',  double([t.training_class{12}; t.testing_class{12}]), sparse([t.training{12}; t.testing{12}]) );
+
+
+%%
+
+
+libsvmread('train.txt.model', model );
 
 
 %% run tests
 
     % minCuadrado
-result_minCuadrados_euclidean   = run_test( test_10, MethodRecog.euclidean );
-a=1
-result_minCuadrados_cityblock   = run_test( test_10, MethodRecog.cityblock );
-a=2
-result_minCuadrados_mahalanobis = run_test( test_10, MethodRecog.mahalanobis);
-a=3
+% tic;
+% result_minCuadrados_euclidean   = run_test( test_10, MethodRecog.euclidean );
+% fprintf('Time (euclidean): in %3.2f sec\n',toc);
+% 
+% tic;
+% result_minCuadrados_cityblock   = run_test( test_10, MethodRecog.cityblock );
+% fprintf('Time (cityblock): in %3.2f sec\n',toc);
+% 
+% tic;
+% result_minCuadrados_mahalanobis = run_test( test_10, MethodRecog.mahalanobis);
+% fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
+
+
+% options = '-c 512 -g 256 -e 1 -h 0 -b 0 -q';   % optimo ?
+% options = '-c 128 -g 256 -e 1 -h 0 -b 0 -q';
+% options = '-c 64 -g 64 -e 0.1 -h 0 -b 0 -q';
+% options = '-c 896 -g 256 -e 0.01 -h 0 -b 1 -q';
+options = '-c 32768 -g 8 -b 1 -q';   
+tic;
+result_minCuadrados_libsvm = run_test( test_10, MethodRecog.libsvm, options );
+fprintf('Time (libsvm): in %3.2f sec\n',toc);
+ 
 
     % legendre
 % result_legendre_euclidean = run_test( test_L, MethodRecog.euclidean );
@@ -86,7 +115,7 @@ a=3
 
 
 
-%% plot tests
+% plot tests
 figure;
 
    % minCuadrado
@@ -97,6 +126,9 @@ plot( result_minCuadrados_cityblock(:,1), result_minCuadrados_cityblock(:,2), ..
       '-o', 'Color', 'cyan', 'MarkerFaceColor','b');
 plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2), ...
       '-o', 'Color', 'red', 'MarkerFaceColor','b');
+plot( result_minCuadrados_libsvm(:,1), result_minCuadrados_libsvm(:,2), ...
+       '-x', 'Color', 'green', 'MarkerFaceColor','r');  
+  
   
    % legendre
 % plot( result_legendre_euclidean(:,1), result_legendre_euclidean(:,2), ...
@@ -107,7 +139,8 @@ plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2)
 %       '-o', 'Color', 'red', 'MarkerFaceColor','g');
   
   
-legend('euclidean',  'cityblock',   'mahalanobis')
+legend('euclidean',  'cityblock',   'mahalanobis', 'libsvm')
+title(options);
 %        'euclidean_L','cityblock_L', 'mahalanobis_L' );
 set(gca,'XTick',0:1:25); grid on;
 
