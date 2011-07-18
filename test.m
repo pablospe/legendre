@@ -11,6 +11,16 @@ for d=degree
     db.feature_extraction( m, d );
 end
 
+%% Whiteboard
+global t;
+global all;
+
+t = trace;
+all = test_data(db, m, 12, 1);
+
+whiteboard;
+
+
 %% Create "training{d}" and "testing{d}" sets - cross-validation
 
 mat_labels = cell2mat(db.get_labels());
