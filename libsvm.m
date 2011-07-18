@@ -4,7 +4,7 @@ function [class,model] = libsvm( testing, testing_class, training, training_clas
 
     model = svmtrain( double(training_class), training, options );
     
-%     testing_class = rand(length(testing),1); % random labels
-    predict_label = svmpredict( double(testing_class), testing, model, '-b 1' );
+    testing_class = rand(length(testing),1); % random labels
+    predict_label = svmpredict( double(testing_class), testing, model, '-b 0' );
     class = char(predict_label);
 end
