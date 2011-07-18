@@ -1,17 +1,13 @@
-function recognition( curve_features, db )
-    training = [];
-    for i=1:20
-        training = [ training; db{i} ];
-    end
+function class = recognition( trace, all )   %, d, method )
+    d = 12;
+%     training = all.training{d};
+%     group = all.training_class{d};
 
-    group = [[1:10], [1:10]];
+    trace = fe( trace, Method.least_square_L, d );
 
-    sample = curve_features;
-    % for i=21:30
-    %     r = randi([21 30],1);
-    % %     sample = [ sample; db{ r } ];
-    %     sample = [ sample; db{ i } ];
-    % end
-
-    class = knnclassify(sample, training, group)
+    all.testing{d} = trace.features{Method.least_square_L,d};
+    
+    options = '-c 512 -g 256 -e 1 -h 0 -b 0 -q';
+    class = run_single_test( all, d, MethodRecog.cityblock, options );
 end
+

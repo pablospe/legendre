@@ -1,4 +1,7 @@
 function whiteboard
+global t;   %   t = trace;
+global all; % all = test_data(db, m, 12, 1);
+
 f = figure;
 
 pt = [0 0];
@@ -19,6 +22,8 @@ set(aH,'ButtonDownFcn', @startDragFcn);
         hold all
         pt = getPosition()
         disp('startDragFcn');
+        t.channel{1} = pt(1);
+        t.channel{2} = pt(2);
         set(f,'WindowButtonMotionFcn', @draggingFcn)
     end
 
@@ -28,6 +33,9 @@ set(aH,'ButtonDownFcn', @startDragFcn);
         pt = getPosition()
         x = [pt(1) last_pt(1)];
         y = [pt(2) last_pt(2)];
+        
+        t.channel{1} = [t.channel{1} pt(1)];
+        t.channel{2} = [t.channel{2} pt(2)];
         
         plot( x, y, '-o', ...
             'LineWidth', 1,  ...
@@ -44,7 +52,7 @@ set(aH,'ButtonDownFcn', @startDragFcn);
 %             'MarkerSize', 2);
         
         
-        disp('draggingFcn');
+%         disp('draggingFcn');
     end
 
 % stopDragFcn
@@ -52,6 +60,7 @@ set(aH,'ButtonDownFcn', @startDragFcn);
 %         hold off;
         set(f,'WindowButtonMotionFcn', '')
         disp('stopDragFcn');
+        class = recognition(t, all)
     end
 
     function point = getPosition()
