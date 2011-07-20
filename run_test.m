@@ -10,7 +10,7 @@ function result = run_test( test_data, method, options )
         current_result = [];
         for d=t.degree % for_all degrees
             class = run_single_test( t, d, method, options );
-            recognition = 100 * sum(class == t.testing_class{d}) / length(class);
+            recognition = 100 * sum(class == t.testing_class) / length(class);
             
             current_result = [ current_result; [d recognition]];
         end

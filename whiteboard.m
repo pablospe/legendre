@@ -1,8 +1,7 @@
-function whiteboard
-global t;   %   t = trace;
-global all; % all = test_data(db, m, 12, 1);
-
+function whiteboard( db )
 f = figure;
+
+t = trace;
 
 pt = [0 0];
 last_pt = [0 0];
@@ -60,7 +59,10 @@ set(aH,'ButtonDownFcn', @startDragFcn);
 %         hold off;
         set(f,'WindowButtonMotionFcn', '')
         disp('stopDragFcn');
-        class = recognition(t, all)
+        
+       %% recognition
+        class = recognition(t, db, 12, MethodRecog.cityblock);
+        label = db.idx2label( class )
     end
 
     function point = getPosition()

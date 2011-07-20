@@ -1,10 +1,8 @@
-function [class,model] = libsvm( testing, testing_class, training, training_class, options )
-%     options = '-c 128 -g 256 -e 1 -h 0 -b 0 -q';   % optimo ?
-%     options = '-c 1024 -g 128 -e 1 -h 0 -b 0 -q';  % test
+function [class,model] = libsvm( testing, training, training_class, options, testing_class )
+    if nargin < 5
+        testing_class = rand(length(testing),1); % random labels
+    end
 
-    model = svmtrain( double(training_class), training, options );
-    
-    testing_class = rand(length(testing),1); % random labels
-    predict_label = svmpredict( double(testing_class), testing, model, '-b 0' );
-    class = char(predict_label);
+    model = svmtrain( training_class, training, options );    
+    class = svmpredict( testing_class, testing, model, '-b 0' );
 end
