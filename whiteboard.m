@@ -1,4 +1,10 @@
 function whiteboard( db )
+if nargin < 1
+    db = [];
+end
+
+recog = ~(nargin < 1);  % bool variable ( nargin < 1 ==> recog = false )
+
 f = figure;
 
 t = trace;
@@ -36,7 +42,7 @@ set(aH,'ButtonDownFcn', @startDragFcn);
         t.channel{1} = [t.channel{1} pt(1)];
         t.channel{2} = [t.channel{2} pt(2)];
         
-        plot( x, y, '-o', ...
+        plot( x, y, 'o', ...
             'LineWidth', 1,  ...
             'MarkerEdgeColor','b', ...
             'MarkerFaceColor','g', ...
@@ -60,9 +66,11 @@ set(aH,'ButtonDownFcn', @startDragFcn);
         set(f,'WindowButtonMotionFcn', '')
         disp('stopDragFcn');
         
-       %% recognition
-        class = recognition(t, db, 12, MethodRecog.cityblock);
-        label = db.idx2label( class )
+        %% recognition
+        if recog
+            class = recognition(t, db, 12, MethodRecog.cityblock);
+            label = db.idx2label( class )
+        end
     end
 
     function point = getPosition()

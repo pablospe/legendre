@@ -5,5 +5,6 @@ classdef MethodRecog < uint32
       cityblock   (2)
       mahalanobis (3)
       libsvm      (4)
+      minkowski   (5)
    end
 end

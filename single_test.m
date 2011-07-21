@@ -17,5 +17,10 @@ function class = single_test( testing, training, training_class, method, options
 %           class = mahalanobis(t.testing{d}, t.training{d}, t.training_class{d} );
       case MethodRecog.libsvm
           class = libsvm( testing, training, training_class, options, testing_class );
+      case MethodRecog.minkowski           
+          P = options;
+          kdtreeNS = KDTreeSearcher(training,'Distance','minkowski','P',P);
+          [IDX,D] = knnsearch(kdtreeNS, testing);
+          class = training_class(IDX,:);
     end        
 end
