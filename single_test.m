@@ -7,14 +7,17 @@ function class = single_test( testing, training, training_class, method, options
         testing_class = rand(length(testing),1); % random labels
     end    
     
+    training = normalize( training );
+    testing  = normalize( testing );
+    
     switch(method)
       case MethodRecog.euclidean
           class = knnclassify( testing, training, training_class, 1, 'euclidean' );
       case MethodRecog.cityblock
           class = knnclassify( testing, training, training_class, 1, 'cityblock' );
       case MethodRecog.mahalanobis
-          class = classify( testing, training, training_class, 'mahalanobis' );
-%           class = mahalanobis(t.testing{d}, t.training{d}, t.training_class{d} );
+%           class = classify( testing, training, training_class, 'mahalanobis' );
+          class = mahalanobis(testing, training, training_class );
       case MethodRecog.libsvm
           class = libsvm( testing, training, training_class, options, testing_class );
       case MethodRecog.minkowski           
@@ -23,4 +26,18 @@ function class = single_test( testing, training, training_class, method, options
           [IDX,D] = knnsearch(kdtreeNS, testing);
           class = training_class(IDX,:);
     end        
+end
+
+
+function x = normalize( x )
+    x = x';  % If A is a matrix, mean(A) treats the columns of A as vectors
+    
+    mn = mean(x);
+    sd = std(x);
+    sd(sd==0) = 1;
+    
+    x = bsxfun(@minus,x,mn);
+    x = bsxfun(@rdivide,x,sd);
+    
+    x = x';
 end
