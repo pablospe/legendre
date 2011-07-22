@@ -41,18 +41,23 @@ fprintf('Time: %3.2f sec\n',toc);
 %% run tests
 
     % minCuadrado
+    
+% euclidean    
 tic;
 result_minCuadrados_euclidean   = run_test( test_10, MethodRecog.euclidean );
 fprintf('Time (euclidean): in %3.2f sec\n',toc);
 
+% cityblock
 tic;
 result_minCuadrados_cityblock   = run_test( test_10, MethodRecog.cityblock );
 fprintf('Time (cityblock): in %3.2f sec\n',toc);
 
-% tic;
+% mahalanobis
+tic;
 result_minCuadrados_mahalanobis = run_test( test_10, MethodRecog.mahalanobis);
 fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
 
+% libsvm
 % options = '-c 512 -g 256 -e 1 -h 0 -b 0 -q';   % optimo ?
 % options = '-c 128 -g 256 -e 1 -h 0 -b 0 -q';
 % options = '-c 64 -g 64 -e 0.1 -h 0 -b 0 -q';
@@ -62,13 +67,38 @@ fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
 % options = '-c 128 -g 64 -e 0.1 -h 0 -b 0 -q';
 % options = '-c 2^(10) -g 2^(3) -e 0.1 -h 0 -b 0 -q';
 
-% options = '-c 32 -g 32 -e 0.1 -h 0 -b 0 -q';
 % options = '-c 2048 -g 8 -e 0.1 -h 0 -b 0 -q';
-options = '-c 128 -g 128 -e 0.1 -h 0 -b 0 -q';
+% options = '-c 256 -g 32 -e 0.1 -h 0 -b 0 -q';
+% options = '-c 32 -g 32 -e 0.1 -h 0 -b 0 -q';
+% options = '-c 64 -g 32 -e 0.1 -h 0 -b 0 -q';
+options = '-c 128 -g 16 -e 0.1 -h 0 -b 0 -q';   % <-- optimo para test_10_fold
 
 tic;
 result_minCuadrados_libsvm = run_test( test_10, MethodRecog.libsvm, options );
 fprintf('Time (libsvm): in %3.2f sec\n',toc);
+
+
+% options{1}  = '-c   128 -g 128 -e 0.1 -h 0 -b 0 -q';
+% options{2}  = '-c    64 -g 128 -e 0.1 -h 0 -b 0 -q';
+% options{3}  = '-c  1024 -g 128 -e 0.1 -h 0 -b 0 -q';
+% options{4}  = '-c    64 -g 256 -e 0.1 -h 0 -b 0 -q';
+% options{5}  = '-c    64 -g 256 -e 0.1 -h 0 -b 0 -q';
+% options{6}  = '-c    16 -g 256 -e 0.1 -h 0 -b 0 -q';
+% options{7}  = '-c 32768 -g 0.5 -e 0.1 -h 0 -b 0 -q';
+% options{8}  = '-c    32 -g 256 -e 0.1 -h 0 -b 0 -q';
+% options{9}  = '-c   128 -g 128 -e 0.1 -h 0 -b 0 -q';
+% options{10} = '-c  1024 -g  64 -e 0.1 -h 0 -b 0 -q';
+% 
+% tic;
+% result_minCuadrados_libsvm = 0;
+% for i=1:10
+%     t{1} = test_10{i};
+%     result = run_test( t, MethodRecog.libsvm, options{i} );
+%     result_minCuadrados_libsvm = result_minCuadrados_libsvm + result/10;
+% end
+% fprintf('Time (libsvm): in %3.2f sec\n',toc);
+
+
 
 tic;
 P = 0.9; % optimo ? 
