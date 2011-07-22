@@ -62,7 +62,9 @@ fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
 % options = '-c 128 -g 64 -e 0.1 -h 0 -b 0 -q';
 % options = '-c 2^(10) -g 2^(3) -e 0.1 -h 0 -b 0 -q';
 
-options = '-c 32 -g 32 -e 0.1 -h 0 -b 0 -q';
+% options = '-c 32 -g 32 -e 0.1 -h 0 -b 0 -q';
+% options = '-c 2048 -g 8 -e 0.1 -h 0 -b 0 -q';
+options = '-c 128 -g 128 -e 0.1 -h 0 -b 0 -q';
 
 tic;
 result_minCuadrados_libsvm = run_test( test_10, MethodRecog.libsvm, options );
@@ -122,9 +124,11 @@ hold off;
 
 
 %% libsvmwrite
-% % t = test_data;
-% t = test_10{1};
-% libsvmwrite('train.txt', double(t.training_class), sparse(t.training{12}) );
-% libsvmwrite('test.txt',  double(t.testing_class), sparse(t.testing{12}) );
-% libsvmwrite('db.txt',  double([t.training_class; t.testing_class]), sparse([t.training{12}; t.testing{12}]) );
-% 
+% t = test_data;
+
+for i=1:10
+    t = test_10{i};
+    libsvmwrite( ['train_', int2str(i), '.txt'] , double(t.training_class), sparse(t.training{13}) );
+%     libsvmwrite( ['test_', int2str(i), '.txt'] ,  double(t.testing_class), sparse(t.testing{13}) );
+%     libsvmwrite( ['db_', int2str(i), '.txt'],  double([t.training_class; t.testing_class]), sparse([t.training{13}; t.testing{13}]) );
+end
