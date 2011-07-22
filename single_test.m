@@ -22,9 +22,17 @@ function class = single_test( testing, training, training_class, method, options
           class = libsvm( testing, training, training_class, options, testing_class );
       case MethodRecog.minkowski           
           P = options;
-          kdtreeNS = KDTreeSearcher(training,'Distance','minkowski','P',P);
-          [IDX,D] = knnsearch(kdtreeNS, testing);
+%           NS = KDTreeSearcher(training,'Distance','minkowski','P',P);
+%           NS =  ExhaustiveSearcher(training,'Distance','minkowski','P',P);
+%           IDX = NS.knnsearch(testing);
+%           class = training_class(IDX,:);
+          
+          
+          IDX = knnsearch( training, testing, ...
+                           'NSMethod', 'kdtree', ...
+                           'Distance','minkowski','P',P);
           class = training_class(IDX,:);
+          
     end        
 end
 
