@@ -1,0 +1,4 @@
+init_mhmm    : Inicializar
+mhmm_em      : Entrenar
+
+mhmm_logprob : Calcular la probabilidad de la sequencia
