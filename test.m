@@ -33,7 +33,7 @@ P = 0.9;            % P=0.9  ==>  training: 90% -- test: 10%
 % methodCrossVal = MethodCrossVal.HoldOut;
 methodCrossVal = MethodCrossVal.Kfold;
 
-test_10 = create_test_data( methodCrossVal, db, m, degree, k, P ); 
+test_10_fold = create_test_data( methodCrossVal, db, m, degree, k, P ); 
 fprintf('Time: %3.2f sec\n',toc);
 
 
@@ -44,17 +44,17 @@ fprintf('Time: %3.2f sec\n',toc);
     
 % euclidean    
 tic;
-result_minCuadrados_euclidean   = run_test( test_10, MethodRecog.euclidean );
+% result_minCuadrados_euclidean   = run_test( test_10_fold, MethodRecog.euclidean );
 fprintf('Time (euclidean): in %3.2f sec\n',toc);
 
 % cityblock
 tic;
-result_minCuadrados_cityblock   = run_test( test_10, MethodRecog.cityblock );
+% result_minCuadrados_cityblock   = run_test( test_10_fold, MethodRecog.cityblock );
 fprintf('Time (cityblock): in %3.2f sec\n',toc);
 
 % mahalanobis
 tic;
-result_minCuadrados_mahalanobis = run_test( test_10, MethodRecog.mahalanobis);
+% result_minCuadrados_mahalanobis = run_test( test_10_fold, MethodRecog.mahalanobis);
 fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
 
 % libsvm
@@ -74,7 +74,7 @@ fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
 options = '-c 128 -g 16 -e 0.1 -h 0 -b 0 -q';   % <-- optimo para test_10_fold
 
 tic;
-result_minCuadrados_libsvm = run_test( test_10, MethodRecog.libsvm, options );
+% result_minCuadrados_libsvm = run_test( test_10_fold, MethodRecog.libsvm, options );
 fprintf('Time (libsvm): in %3.2f sec\n',toc);
 
 
@@ -92,7 +92,7 @@ fprintf('Time (libsvm): in %3.2f sec\n',toc);
 % tic;
 % result_minCuadrados_libsvm = 0;
 % for i=1:10
-%     t{1} = test_10{i};
+%     t{1} = test_10_fold{i};
 %     result = run_test( t, MethodRecog.libsvm, options{i} );
 %     result_minCuadrados_libsvm = result_minCuadrados_libsvm + result/10;
 % end
@@ -103,8 +103,16 @@ fprintf('Time (libsvm): in %3.2f sec\n',toc);
 tic;
 P = 0.9; % optimo ? 
 % P = 0.7; 
-% result_minCuadrados_minkowski = run_test( test_10, MethodRecog.minkowski, P);
+% result_minCuadrados_minkowski = run_test( test_10_fold, MethodRecog.minkowski, P);
 fprintf('Time (minkowski): in %3.2f sec\n',toc);
+
+
+
+% HMM
+tic;
+options = '';
+result_minCuadrados_libsvm = run_test( test_10_fold, MethodRecog.hmm, options );
+fprintf('Time (libsvm): in %3.2f sec\n',toc);
 
 
     % legendre
@@ -157,7 +165,7 @@ hold off;
 % t = test_data;
 
 for i=1:10
-    t = test_10{i};
+    t = test_10_fold{i};
     libsvmwrite( ['train_', int2str(i), '.txt'] , double(t.training_class), sparse(t.training{13}) );
 %     libsvmwrite( ['test_', int2str(i), '.txt'] ,  double(t.testing_class), sparse(t.testing{13}) );
 %     libsvmwrite( ['db_', int2str(i), '.txt'],  double([t.training_class; t.testing_class]), sparse([t.training{13}; t.testing{13}]) );

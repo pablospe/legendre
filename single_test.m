@@ -33,6 +33,11 @@ function class = single_test( testing, training, training_class, method, options
                            'Distance','minkowski','P',P);
           class = training_class(IDX,:);
           
+          
+      case MethodRecog.hmm
+          class = hmm( testing, training, training_class, options );
+          
+          
     end        
 end
 
