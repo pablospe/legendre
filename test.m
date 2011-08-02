@@ -111,8 +111,8 @@ fprintf('Time (minkowski): in %3.2f sec\n',toc);
 % HMM
 tic;
 options = '';
-result_minCuadrados_libsvm = run_test( test_10_fold, MethodRecog.hmm, options );
-fprintf('Time (libsvm): in %3.2f sec\n',toc);
+result_minCuadrados_hmm = run_test( test_10_fold, MethodRecog.hmm, options );
+fprintf('Time (hmm): in %3.2f sec\n',toc);
 
 
     % legendre
@@ -135,8 +135,8 @@ plot( result_minCuadrados_mahalanobis(:,1), result_minCuadrados_mahalanobis(:,2)
       '-o', 'Color', 'red', 'MarkerFaceColor','b');
 plot( result_minCuadrados_libsvm(:,1), result_minCuadrados_libsvm(:,2), ...
        '-x', 'Color', 'green', 'MarkerFaceColor','r');  
-% plot( result_minCuadrados_minkowski(:,1), result_minCuadrados_minkowski(:,2), ...
-%        '-x', 'Color', 'red', 'MarkerFaceColor','r');     
+plot( result_minCuadrados_hmm(:,1), result_minCuadrados_hmm(:,2), ...
+       '-x', 'Color', 'red', 'MarkerFaceColor','r');     
    
   
    % legendre
@@ -148,7 +148,7 @@ plot( result_minCuadrados_libsvm(:,1), result_minCuadrados_libsvm(:,2), ...
 %       '-o', 'Color', 'red', 'MarkerFaceColor','g');
   
   
-legend('euclidean',  'cityblock', 'mahalanobis', 'libsvm' ) %, 'minkowski')
+legend('euclidean',  'cityblock', 'mahalanobis', 'libsvm', 'hmm' ) %, 'minkowski')
 title(options);
 %        'euclidean_L','cityblock_L', 'mahalanobis_L' );
 set(gca,'XTick',0:1:25); grid on;
