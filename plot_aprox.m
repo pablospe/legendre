@@ -1,7 +1,10 @@
-function plot_aprox( f, f_aprox, str_title )
+function plot_aprox( f, f_aprox, str_title, t )
+
+if ~exist('t', 'var')
     L = length(f);
     delta = 1/L;
-    t = 0:delta:1-1/L; 
+    t = 0:delta:1-1/L;   
+end
     
     plot( t, f_aprox, 'Color', 'green' );
     title( str_title );

@@ -1,10 +1,16 @@
-function [alpha,f_est] = aprox_discreta(n, f)
+function [alpha,f_est] = aprox_discreta(n, f, t)
     global C;
     
     L = length(f);
     delta = 1/L;
+
+    if ~exist('t', 'var')
+        t = [0:delta:1-1/L]';
+    else
+        t=t';
+    end
     
-    U = moments_discreto(n, f, L);
+    U = moments_discreto(n, f, L, t);
     U=U';
     
 %     persistent C

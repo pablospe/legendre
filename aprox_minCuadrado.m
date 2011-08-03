@@ -1,11 +1,17 @@
-function [alpha,f_est] = aprox_minCuadrado(n, f)
+function [alpha,f_est] = aprox_minCuadrado(n, f, t)
     global C;
 
     f=f';
+    
+if ~exist('t', 'var')
     L = length(f);
     delta = 1/L;
     t = [0:delta:1-1/L]';
-   
+else
+    t=t';
+end
+
+
     Poli_Legendre = fliplr(C);
    
     Lx=[];
@@ -27,3 +33,4 @@ function [alpha,f_est] = aprox_minCuadrado(n, f)
     alpha = alpha/norm(alpha);         
     alpha = alpha';
 end
+
