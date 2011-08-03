@@ -10,7 +10,7 @@ function [alpha,f_est] = aprox_discreta(n, f, t)
         t=t';
     end
     
-    U = moments_discreto(n, f, L, t);
+    U = moments_discreto(n, f, t);
     U=U';
     
 %     persistent C

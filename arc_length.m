@@ -5,6 +5,9 @@ y = db.trace{1}.channel{2};
 x = (x-min(x))/(max(x)-min(x));
 y = (y-min(y))/(max(y)-min(y));
 
+% x = (x)/(max(x)-min(x));
+% y = (y)/(max(y)-min(y));
+
 n = length(x);
 s = zeros(n,1)';
 for i=2:n
@@ -42,11 +45,14 @@ for N=10  %*ones(1,1000)
     plot_aprox( x, xest, 'Minimos cuadrados', domain );
     error_minimos_cuadrado = bestfit( x, xest )
     
+%     alpha
+    
     % Legendre
     subplot(122)
+%     domain = s;  % Se puede calcular así
     [alpha2, xest2] = aprox_discreta(N, x, domain);
     xest2 = xest2(1:end-1);
-    plot_aprox( x, xest2, ['N = ',int2str(N)], domain );
+    plot_aprox( x, xest2, ['N = ',int2str(N)] );
     error_legendre = bestfit( x, xest2 )
     
 %     alpha2
