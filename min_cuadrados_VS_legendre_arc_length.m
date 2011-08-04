@@ -15,7 +15,6 @@ for i=2:n
 end
 
 L = s(n);
-t = 0:0.01:L;
 
 subplot(221)
     plot(1:n,x);
