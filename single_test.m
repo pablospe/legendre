@@ -7,8 +7,8 @@ function class = single_test( testing, training, training_class, method, options
         testing_class = rand(length(testing),1); % random labels
     end    
     
-    training = normalize( training );
-    testing  = normalize( testing );
+%     training = normalize( training );
+%     testing  = normalize( testing );
     
     switch(method)
       case MethodRecog.euclidean

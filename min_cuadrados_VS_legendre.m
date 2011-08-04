@@ -6,7 +6,7 @@
 
 % database
 x = db.trace{3}.channel{1};
-x = (x-min(x))/(max(x)-min(x));
+% x = (x-min(x))/(max(x)-min(x));
 
 
 global C;
@@ -26,7 +26,15 @@ for N=15  %*ones(1,1000)
 
     % Legendre
     subplot(122)
-    [alpha2, xest2] = aprox_discreta(N,x);
+    
+%     L=length(x);
+%     delta = 1/L;
+%     t = [0:delta:1-1/L];
+    
+    % Discrete time
+    t = 0:length(x)-1;
+
+    [alpha2, xest2] = aprox_discreta(N,x,t);
     xest2 = xest2(1:end-1);
     plot_aprox( x, xest2, ['N = ',int2str(N)] );
     error_legendre = bestfit( x, xest2 )

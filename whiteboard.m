@@ -68,6 +68,7 @@ set(aH,'ButtonDownFcn', @startDragFcn);
         
         %% recognition
         if recog
+            t.normalize();
             class = recognition(t, db, 12, MethodRecog.cityblock);
             label = db.idx2label( class )
         end

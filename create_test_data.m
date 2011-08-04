@@ -1,10 +1,12 @@
-function tests = create_test_data( method, db, m, degree, k, percentaje )
+function [tests,indices] = create_test_data( method, db, m, degree, k, percentaje )
     if nargin < 6
         percentaje = 0.9;
     end
 
     N = db.size;
 
+    indices = [];
+    
     switch(method)
       case MethodCrossVal.HoldOut
         [train, test] = crossvalind('HoldOut', N, 1-percentaje );

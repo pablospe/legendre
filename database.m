@@ -141,9 +141,14 @@ methods
     end    
     
     %% Feature Extraction
-    function obj = feature_extraction( obj, m, d )
+    function obj = feature_extraction( obj, m, d, normalize )
+        if ~exist('normalize', 'var')
+            normalize = false;
+        end
+        
+        
         for i=1:obj.size
-            obj.features{i,m,d} = obj.trace{i}.feature_extraction( m, d );
+            obj.features{i,m,d} = obj.trace{i}.feature_extraction( m, d, normalize );
         end        
     end
     
