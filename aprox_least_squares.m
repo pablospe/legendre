@@ -1,6 +1,4 @@
-function [alpha,f_est] = aprox_minCuadrado(n, f, t)
-    global C;
-
+function [alpha,f_est] = aprox_least_squares(n, f, C, t)
     f=f';
     
 if ~exist('t', 'var')

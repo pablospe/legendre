@@ -8,7 +8,7 @@ plot(x,y)
 recognition( feature_extraction(x,y,10), features )
 
 %     x = (x-min(x))/800;
-%     xest2 = aprox_discreta(10,x);
+%     xest2 = aprox_discrete(10,x);
 %     xest2 = xest2(1:end-1);
 %     xx = 0:1/length(x):1-1/length(x);
 %     plot(xx, xest2)

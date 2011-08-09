@@ -1,4 +1,4 @@
-function ret = moments_discreto(n, f, t)
+function ret = moments_discrete(n, f, t)
 %     ret = uint64(zeros(1,n));
     ret = double(zeros(1,n));
     for i = 1:n

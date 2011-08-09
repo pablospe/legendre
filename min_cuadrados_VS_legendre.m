@@ -10,20 +10,23 @@ x = db.trace{3}.channel{1};
 
 
 global C;
+global LS_coeffs;
+global Chebyshev_coeffs;
+% figure;
 
-% time = [];
-% t_total_1 = cputime;
 for N=15  %*ones(1,1000)
 
-    C = legendre_coefficients_matrix(N);  
+    C = legendre_coefficients_matrix(N);
+    LS_coeffs = legendre_sobolev_coefficients_matrix(N);
+    Chebyshev_coeffs = chebyshev_coefficients_matrix(N);
     
-    % MinCuadrados
+    % LeastSquares
     subplot(121)
-    [alpha, xest] = aprox_minCuadrado(N,x);
+    [alpha, xest] = aprox_least_squares(N,x,LS_coeffs);
     plot_aprox( x, xest, 'Minimos cuadrados' );
     error_minimos_cuadrado = bestfit( x, xest )
-
-
+  
+    
     % Legendre
     subplot(122)
     
@@ -34,7 +37,7 @@ for N=15  %*ones(1,1000)
     % Discrete time
     t = 0:length(x)-1;
 
-    [alpha2, xest2] = aprox_discreta(N,x,t);
+    [alpha2, xest2] = aprox_discrete(N,x,C,t);
     xest2 = xest2(1:end-1);
     plot_aprox( x, xest2, ['N = ',int2str(N)] );
     error_legendre = bestfit( x, xest2 )

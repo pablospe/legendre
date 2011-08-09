@@ -37,8 +37,8 @@ subplot(121)
 plot(x,y,xest,yest)
 
 subplot(122)
-xest2 = aprox_discreta(15,x);
-yest2 = aprox_discreta(15,y);
+xest2 = aprox_discrete(15,x);
+yest2 = aprox_discrete(15,y);
 xest2 = xest2(1:end-1);
 yest2 = yest2(1:end-1);
 % figure(2)

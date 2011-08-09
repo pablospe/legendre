@@ -1,23 +1,17 @@
-function [alpha,f_est] = aprox_discreta(n, f, t)
-    global C;
+function [alpha,f_est] = aprox_discrete(n, f, C, t)
+%     global C;
     
     L = length(f);
     delta = 1/L;
 
     if ~exist('t', 'var')
-        t = [0:delta:1-1/L]';
+        t = [0:delta:1-1/L];
     else
-        t=t';
+        t=t;
     end
     
-    U = moments_discreto(n, f, t);
-    U=U';
+    U = moments_discrete(n, f, t)';
     
-%     persistent C
-%     if isempty(C)
-%         C = legendre_coefficients_matrix(n);
-%     end
-
     alpha = double(zeros(1,n));
     for i = 1:n
         alpha(i) = C(i,:) * U;

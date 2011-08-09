@@ -35,10 +35,10 @@ for N=10  %*ones(1,1000)
 
     C = legendre_coefficients_matrix(N);  
     
-    % MinCuadrados
+    % LeastSquares
     subplot(121)
     domain = s/s(end);
-    [alpha, xest] = aprox_minCuadrado(N, x, domain);
+    [alpha, xest] = aprox_least_squares(N, x, domain);
     plot_aprox( x, xest, 'Minimos cuadrados', domain );
     error_minimos_cuadrado = bestfit( x, xest )
     
@@ -47,7 +47,7 @@ for N=10  %*ones(1,1000)
     % Legendre
     subplot(122)
 %     domain = s;  % Se puede calcular así
-    [alpha2, xest2] = aprox_discreta(N, x, domain);
+    [alpha2, xest2] = aprox_discrete(N, x, domain);
     xest2 = xest2(1:end-1);
     plot_aprox( x, xest2, ['N = ',int2str(N)] );
     error_legendre = bestfit( x, xest2 )
