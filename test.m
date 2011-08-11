@@ -20,7 +20,8 @@ for d=degree
     
     disp( ['feature_extraction  -  d = ', num2str(d)] );
     normalize = true;
-    db.feature_extraction( m, d, normalize );
+    standardize = true;
+    db.feature_extraction( m, d, normalize, standardize );
 end
 fprintf('Time: %3.2f sec\n',toc);
 
@@ -65,7 +66,7 @@ result_mahalanobis = run_test( test_10_fold, MethodRecog.mahalanobis);
 fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
 
 % libsvm
-options  = '-c 10 -g 2 -e 0.1 -h 0 -b 0 -q';
+options  = '-c 8192 -g 0.125 -e 0.1 -h 0 -b 0 -q';
 % options  = '-t 0 -c 32 -g 0.0078125 -e 0.1 -h 0 -b 0 -q';
 % options  = '-c 8 -g  -e 0.1 -h 0 -b 0 -q';
 % options  = '-c 4 -g 4 -e 0.1 -h 0 -b 0 -q';

@@ -7,7 +7,11 @@
 % database
 x = db.trace{3}.channel{1};
 % x = (x-min(x))/(max(x)-min(x));
+% x = x/(max(x)-min(x));
 
+
+% x = Y;
+% x = (x-min(x))/(max(x)-min(x));
 
 global C;
 global LS_coeffs;
@@ -22,9 +26,9 @@ for N=15  %*ones(1,1000)
     
     % LeastSquares
     subplot(121)
-    [alpha, xest] = aprox_least_squares(N,x,LS_coeffs);
-    plot_aprox( x, xest, 'Minimos cuadrados' );
-    error_minimos_cuadrado = bestfit( x, xest )
+%     [alpha, xest] = aprox_least_squares(N,x,LS_coeffs);
+%     plot_aprox( x, xest, 'Minimos cuadrados' );
+%     error_minimos_cuadrado = bestfit( x, xest )
   
     
     % Legendre
@@ -41,6 +45,8 @@ for N=15  %*ones(1,1000)
     xest2 = xest2(1:end-1);
     plot_aprox( x, xest2, ['N = ',int2str(N)] );
     error_legendre = bestfit( x, xest2 )
+    
+    alpha2
     
 %     [error_minimos_cuadrado, error_legendre]
 

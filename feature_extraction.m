@@ -45,6 +45,17 @@ global Chebyshev_coeffs;
             x_alpha = aprox_least_squares(d,x,Chebyshev_coeffs,domain);
             y_alpha = aprox_least_squares(d,y,Chebyshev_coeffs,domain);
             
+        case MethodFE.moments
+            L = length(x);
+            delta = 1/L;
+            t = [0:delta:1-1/L];
+            
+            x_alpha = moments_discrete(d, x, t);           
+            y_alpha = moments_discrete(d, y, t);
+            
+            x_alpha = x_alpha/norm(x_alpha);
+            y_alpha = y_alpha/norm(y_alpha);
+                        
         
     end
 
