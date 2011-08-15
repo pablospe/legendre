@@ -4,7 +4,7 @@
 % fprintf('Time: %3.2f sec\n',toc);
 
 %%  Method
-m = MethodFE.least_square_L
+m = MethodFE.moments_L_arc
 degree=3:20;
 
 %% Features extraction
@@ -19,8 +19,8 @@ for d=degree
     Chebyshev_coeffs = chebyshev_coefficients_matrix(d);
     
     disp( ['feature_extraction  -  d = ', num2str(d)] );
-    normalize = true;
-    standardize = true;
+    normalize = false;
+    standardize = false;
     db.feature_extraction( m, d, normalize, standardize );
 end
 fprintf('Time: %3.2f sec\n',toc);
@@ -52,63 +52,45 @@ fprintf('Time (Cross-Validation): %3.2f sec\n',toc);
    
 % euclidean    
 tic;
-result_euclidean   = run_test( test_10_fold, MethodRecog.euclidean );
+% result_euclidean   = run_test( test_10_fold, MethodRecog.euclidean );
 fprintf('Time (euclidean): in %3.2f sec\n',toc);
 
 % cityblock
 tic;
-result_cityblock   = run_test( test_10_fold, MethodRecog.cityblock );
+% result_cityblock   = run_test( test_10_fold, MethodRecog.cityblock );
 fprintf('Time (cityblock): in %3.2f sec\n',toc);
 
 % mahalanobis
 tic;
-result_mahalanobis = run_test( test_10_fold, MethodRecog.mahalanobis);
+% result_mahalanobis = run_test( test_10_fold, MethodRecog.mahalanobis);
 fprintf('Time (mahalanobis): in %3.2f sec\n',toc);
 
-% libsvm
-options  = '-c 8192 -g 0.125 -e 0.1 -h 0 -b 0 -q';
+% libsvm\pi
+% options  = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
 % options  = '-t 0 -c 32 -g 0.0078125 -e 0.1 -h 0 -b 0 -q';
-% options  = '-c 8 -g  -e 0.1 -h 0 -b 0 -q';
-% options  = '-c 4 -g 4 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 512 -g 256 -e 1 -h 0 -b 0 -q';   % optimo ?
-% options = '-c 128 -g 256 -e 1 -h 0 -b 0 -q';
-% options = '-c 64 -g 64 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 896 -g 256 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 32768 -g 8 -b 1 -q';   
 
-% options = '-c 128 -g 64 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 2^(10) -g 2^(3) -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.moments_L}           = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.moments_L_arc}       = '-c 2048 -g 8 -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.least_square_L}      = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.least_square_L_arc}  = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.least_square_LS}     = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.least_square_LS_arc} = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.least_square_C}      = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
+options{MethodFE.moments}             = '-c 12 -g 2 -e 0.1 -h 0 -b 0 -q';
 
-% options = '-c 2048 -g 8 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 256 -g 32 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 32 -g 32 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 64 -g 32 -e 0.1 -h 0 -b 0 -q';
-% options = '-c 128 -g 16 -e 0.1 -h 0 -b 0 -q';   % <-- optimo para test_10_fold
+% MethodFE.moments_L
+% MethodFE.moments_L_arc
+% MethodFE.least_square_L
+% MethodFE.least_square_L_arc
+% MethodFE.least_square_LS
+% MethodFE.least_square_LS_arc
+% MethodFE.least_square_C
+% MethodFE.moments
+
 
 tic;
-result_libsvm = run_test( test_10_fold, MethodRecog.libsvm, options );
+result_libsvm = run_test( test_10_fold, MethodRecog.libsvm, options{m} );
 fprintf('Time (libsvm): in %3.2f sec\n',toc);
-
-
-% options{1}  = '-c   128 -g 128 -e 0.1 -h 0 -b 0 -q';
-% options{2}  = '-c    64 -g 128 -e 0.1 -h 0 -b 0 -q';
-% options{3}  = '-c  1024 -g 128 -e 0.1 -h 0 -b 0 -q';
-% options{4}  = '-c    64 -g 256 -e 0.1 -h 0 -b 0 -q';
-% options{5}  = '-c    64 -g 256 -e 0.1 -h 0 -b 0 -q';
-% options{6}  = '-c    16 -g 256 -e 0.1 -h 0 -b 0 -q';
-% options{7}  = '-c 32768 -g 0.5 -e 0.1 -h 0 -b 0 -q';
-% options{8}  = '-c    32 -g 256 -e 0.1 -h 0 -b 0 -q';
-% options{9}  = '-c   128 -g 128 -e 0.1 -h 0 -b 0 -q';
-% options{10} = '-c  1024 -g  64 -e 0.1 -h 0 -b 0 -q';
-% 
-% tic;
-% result_libsvm = 0;
-% for i=1:10
-%     t{1} = test_10_fold{i};
-%     result = run_test( t, MethodRecog.libsvm, options{i} );
-%     result_libsvm = result_libsvm + result/10;
-% end
-% fprintf('Time (libsvm): in %3.2f sec\n',toc);
 
 
 
@@ -133,43 +115,122 @@ fprintf('Time (hmm): in %3.2f sec\n',toc);
 % result_legendre_mahalanobis = run_test( test_L, MethodRecog.mahalanobis);
 
 
+%% 
 
-% plot tests
-h = figure; 
+X = [];
+X = [X result_euclidean(:,1)];
+X = [X result_cityblock(:,1)];
+X = [X result_mahalanobis(:,1)];
+X = [X result_libsvm(:,1)];
 
-   % LeastSquares
-plot( result_euclidean(:,1), result_euclidean(:,2), ...
-       '-o', 'Color', 'blue', 'MarkerFaceColor','b'); 
-hold on;      
-plot( result_cityblock(:,1), result_cityblock(:,2), ...
-      '-o', 'Color', 'cyan', 'MarkerFaceColor','b');
-plot( result_mahalanobis(:,1), result_mahalanobis(:,2), ...
-      '-o', 'Color', 'red', 'MarkerFaceColor','b');
-plot( result_libsvm(:,1), result_libsvm(:,2), ...
-       '-x', 'Color', 'green', 'MarkerFaceColor','r');  
-% plot( result_hmm(:,1), result_hmm(:,2), ...
-%        '-x', 'Color', 'red', 'MarkerFaceColor','r');     
-   
-  
-   % legendre
-% plot( result_legendre_euclidean(:,1), result_legendre_euclidean(:,2), ...
-%        '-o', 'Color', 'blue', 'MarkerFaceColor','g'); 
-% plot( result_legendre_cityblock(:,1), result_legendre_cityblock(:,2), ...
-%       '-o', 'Color', 'cyan', 'MarkerFaceColor','g');
-% plot( result_legendre_mahalanobis(:,1), result_legendre_mahalanobis(:,2), ...
-%       '-o', 'Color', 'red', 'MarkerFaceColor','g');
-  
+Y = [];
+Y = [Y result_euclidean(:,2)];
+Y = [Y result_cityblock(:,2)];
+Y = [Y result_mahalanobis(:,2)];
+Y = [Y result_libsvm(:,2)];
 
-title(options);
-legend('euclidean',  'cityblock', 'mahalanobis', 'libsvm' ) %, 'hmm' ) %, 'minkowski')
-%        'euclidean_L','cityblock_L', 'mahalanobis_L' );
-set(gca,'XTick',0:1:25); grid on;
-set(gca,'YTick',80:1:100);
-set(gca,'ylim', [80 100]);
+[h,axes] = createfigure(X,Y);
 
-set(h,'units','normalized','outerposition',[0 0 1 1]);  % maximaze
+% Create title
+title({ m.get_description() ; ...
+        ['libsvn options = ', options{m}] } );
 
-hold off;
+% Legend position
+legend1 = legend(axes,'show');
+set( legend1 ,...
+     'Position',[0.689525566487775 0.130122216664188 0.199519230769231 0.268962848297214]);
+
+    
+% Maximaze
+set(h,'units','normalized','outerposition',[0 0 1 1]);
+
+
+%%
+% Expand axes to fill figure
+% T = get(axes,'tightinset'); 
+% set(axes,'position',[T(1) T(2) 1-T(1)-T(3) 1-T(2)-T(4)]);
+
+save2pdf( [m.get_string_name(), '.pdf'], gcf, 300);
+
+
+    
+%%
+% % plot tests
+% h = figure; 
+% 
+%    % LeastSquares
+% p = plot( result_euclidean(:,1), result_euclidean(:,2), ...
+%       'MarkerFaceColor',[0.0431372560560703 0.517647087574005 0.780392169952393],...
+%       'MarkerSize',11,...
+%       'Marker','o',...
+%       'MarkerEdgeColor',[0.972549021244049 0.972549021244049 0.972549021244049],...
+%       'LineWidth',3, ...
+%       'DisplayName','euclidean');
+%  
+% hold on;      
+% plot( result_cityblock(:,1), result_cityblock(:,2), ...
+%       '-o', 'Color', 'cyan', 'MarkerFaceColor','b');
+% plot( result_mahalanobis(:,1), result_mahalanobis(:,2), ...
+%     'MarkerFaceColor',[1 0.600000023841858 0.7843137383461],...
+%     'LineWidth',3, ...
+%     'MarkerSize',12,...
+%     'Marker','v',...
+%     'Color',[0.847058832645416 0.160784319043159 0],...
+%     'DisplayName','mahalanobis');
+% 
+% plot( result_libsvm(:,1), result_libsvm(:,2), ...
+%        '-x', 'Color', 'green', 'MarkerFaceColor','r');  
+% % plot( result_hmm(:,1), result_hmm(:,2), ...
+% %        '-x', 'Color', 'red', 'MarkerFaceColor','r');     
+%    
+%   
+%    % legendre
+% % plot( result_legendre_euclidean(:,1), result_legendre_euclidean(:,2), ...
+% %        '-o', 'Color', 'blue', 'MarkerFaceColor','g'); 
+% % plot( result_legendre_cityblock(:,1), result_legendre_cityblock(:,2), ...
+% %       '-o', 'Color', 'cyan', 'MarkerFaceColor','g');
+% % plot( result_legendre_mahalanobis(:,1), result_legendre_mahalanobis(:,2), ...
+% %       '-o', 'Color', 'red', 'MarkerFaceColor','g');
+%   
+% 
+% 
+% 
+% % ['N = ',int2str(N)]
+% title({ 'First line'; ...
+%         ['libsvn options = ',options] } );
+% 
+% % Create xlabel
+% xlabel('3 \leq degree \leq 20','FontSize',13,'FontName','Droid Sans');
+% 
+% % Create ylabel
+% ylabel('Reconocimiento (%)','FontSize',13,'FontName','Droid Sans');
+% 
+% 
+% legend1 = legend('euclidean',  'cityblock', 'mahalanobis', 'libsvm' ) %, 'hmm' ) %, 'minkowski')
+% %        'euclidean_L','cityblock_L', 'mahalanobis_L' );
+% 
+% set(legend1,...
+%     'TextColor',[0.423529416322708 0.250980406999588 0.39215686917305],...
+%     'EdgeColor',[0.0431372560560703 0.517647087574005 0.780392169952393],...
+%     'YColor',[0.0431372560560703 0.517647087574005 0.780392169952393],...
+%     'XColor',[0.0431372560560703 0.517647087574005 0.780392169952393],...
+%     'Position',[0.776562500000001 0.127106741573034 0.111458333333333 0.192649812734082],...
+%     'FontSize',14,...
+%     'FontName','Droid Serif',...
+%     'Color',[1 0.960784316062927 0.901960790157318]);
+% 
+% set(gca,'XTick', 4:1:20); grid on;
+% set(gca,'YTick', 81:1:100);
+% set(gca,'ylim', [80 100]);
+% set(gca,'xlim', [3 20]);
+% 
+% % axes1 = axes('Parent',figure1,...
+% %     'YTick',[81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100],...
+% %     'XTick',[4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20]);
+% 
+% 
+% 
+% hold off;
 
 
 
@@ -183,6 +244,8 @@ hold off;
 %     libsvmwrite( ['db_', int2str(i), '.txt'],  double([t.training_class; t.testing_class]), sparse([t.training{13}; t.testing{13}]) );
 % end
 
-% t = test_10_fold{1};
-% libsvmwrite( ['digits_LS_degree10.txt'],  double([t.training_class; t.testing_class]), ...
-%                                  sparse([t.training{10}; t.testing{10}]) );
+t = test_10_fold{1};
+libsvmwrite( [m.get_string_name(), '.txt'],  double([t.training_class; t.testing_class]), ...
+                                     sparse([t.training{10}; t.testing{10}]) );
+                                 
+                             

@@ -13,8 +13,8 @@ global Chebyshev_coeffs;
         case MethodFE.moments_L_arc
             s = arc_length(x,y);
             domain = s/s(end);
-            x_alpha = aprox_discrete(d,x,domain);
-            y_alpha = aprox_discrete(d,y,domain);        
+            x_alpha = aprox_discrete(d,x,C,domain);
+            y_alpha = aprox_discrete(d,y,C,domain);        
 
             
         % LeastSquares            
