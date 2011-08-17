@@ -14,21 +14,21 @@ x = db.trace{3}.channel{1};
 % x = (x-min(x))/(max(x)-min(x));
 
 global C;
-global LS_coeffs;
-global Chebyshev_coeffs;
+% global LS_coeffs;
+% global Chebyshev_coeffs;
 % figure;
 
 for N=15  %*ones(1,1000)
 
     C = legendre_coefficients_matrix(N);
-    LS_coeffs = legendre_sobolev_coefficients_matrix(N);
-    Chebyshev_coeffs = chebyshev_coefficients_matrix(N);
+%     LS_coeffs = legendre_sobolev_coefficients_matrix(N);
+%     Chebyshev_coeffs = chebyshev_coefficients_matrix(N);
     
     % LeastSquares
     subplot(121)
-%     [alpha, xest] = aprox_least_squares(N,x,LS_coeffs);
-%     plot_aprox( x, xest, 'Minimos cuadrados' );
-%     error_minimos_cuadrado = bestfit( x, xest )
+    [alpha, xest] = aprox_least_squares(N,x,C);
+    plot_aprox( x, xest, 'Minimos cuadrados' );
+    error_minimos_cuadrado = bestfit( x, xest )
   
     
     % Legendre

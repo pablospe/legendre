@@ -46,25 +46,25 @@ classdef MethodFE < uint32
         function s = get_description( obj )
             switch(obj)
                 case MethodFE.moments_L
-                    s = 'Polynomails: Legendre - Method: Moments - Parametrization: time';
+                    s = 'Polynomails: Legendre - Method: Moments - Parameterization: time';
 
                 case MethodFE.moments_L_arc
-                    s = 'Polynomails: Legendre - Method: Moments - Parametrization: arc-length';
+                    s = 'Polynomails: Legendre - Method: Moments - Parameterization: arc-length';
 
                 case MethodFE.least_square_L
-                    s = 'Polynomails: Legendre - Method: Least Square - Parametrization: time';
+                    s = 'Polynomails: Legendre - Method: Least Square - Parameterization: time';
 
                 case MethodFE.least_square_L_arc
-                    s = 'Polynomails: Legendre - Method: Least Square - Parametrization: arc-length';
+                    s = 'Polynomails: Legendre - Method: Least Square - Parameterization: arc-length';
 
                 case MethodFE.least_square_LS
-                    s = 'Polynomails: Legendre-Sobolev - Method: Least Square - Parametrization: time';
+                    s = 'Polynomails: Legendre-Sobolev - Method: Least Square - Parameterization: time';
 
                 case MethodFE.least_square_LS_arc
-                    s = 'Polynomails: Legendre-Sobolev - Method: Least Square - Parametrization: arc-length';
+                    s = 'Polynomails: Legendre-Sobolev - Method: Least Square - Parameterization: arc-length';
 
                 case MethodFE.least_square_C
-                    s = 'Polynomails: Chebyshev - Method: Least Square - Parametrization: time';
+                    s = 'Polynomails: Chebyshev - Method: Least Square - Parameterization: time';
 
                 case MethodFE.moments
                     s = 'Method: Moments as features';
